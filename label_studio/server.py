@@ -32,14 +32,57 @@ from label_studio.utils.misc import (
 )
 from label_studio.project import Project
 
+from functools import wraps
+from werkzeug.exceptions import HTTPException
+from dotenv import load_dotenv, find_dotenv
+from authlib.flask.client import OAuth
+from six.moves.urllib.parse import urlencode
+
+from flask_login import login_required, current_user
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager 
+
+from label_studio.models import User
+
+
 logger = logging.getLogger(__name__)
 
 app = flask.Flask(__name__, static_url_path='')
 app.secret_key = 'A0Zrdqwf1AQWj12ajkhgFN]dddd/,?RfDWQQT'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+
+
+db = SQLAlchemy()
+#migrate = Migrate(app, db)
+
+db.init_app(app)
+
+from label_studio.models import User
+#db.create_all()
+
+
 
 # input arguments
 input_args = None
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# @app.before_first_request
+# def create_tables():
+#   db.create_all()  
+
+from label_studio.auth import auth as auth_blueprint
+app.register_blueprint(auth_blueprint)
+
+
 
 
 def project_get_or_create(multi_session_force_recreate=False):
@@ -76,6 +119,51 @@ def project_get_or_create(multi_session_force_recreate=False):
             'project': project,
             'multi_session': False
         })
+# def requires_auth(f):
+#   @wraps(f)
+#   def decorated(*args, **kwargs):
+#     if 'profile' not in session:
+#       # Redirect to Login page here
+#       return redirect('/')
+#     return f(*args, **kwargs)
+
+#   return decorated
+
+# @app.route('/dashboard')
+# @requires_auth
+# def dashboard():
+#     return render_template('dashboard.html',
+#                            userinfo=session['profile'],
+#                            userinfo_pretty=json.dumps(session['jwt_payload'], indent=4))
+
+# @app.route('/login')
+# def login():
+#     #return auth0.authorize_redirect(redirect_uri='/welcome')
+#     return flask.render_template('login.html')
+
+# @app.route('/signup')
+# def signup():
+#     #return auth0.authorize_redirect(redirect_uri='/welcome')
+#     return flask.render_template('signup.html')
+
+# @app.route('/callback')
+# def callback_handling():
+#     # Handles response from token endpoint
+#     auth0.authorize_access_token()
+#     resp = auth0.get('userinfo')
+#     userinfo = resp.json()
+
+#     # Store the user information in flask session.
+#     session['jwt_payload'] = userinfo
+#     session['profile'] = {
+#         'user_id': userinfo['sub'],
+#         'name': userinfo['name']
+#     }
+#     return redirect('/dashboard')
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 
 @app.template_filter('json')
@@ -142,6 +230,7 @@ def labeling_page():
 
 
 @app.route('/welcome')
+@login_required
 def welcome_page():
     """ Label studio frontend: task labeling
     """
@@ -784,6 +873,9 @@ def main():
     # On `start-multi-session` command, server creates one project per each browser sessions
     elif input_args.command == 'start-multi-session':
         app.run(host='0.0.0.0', port=input_args.port, debug=input_args.debug)
+
+
+
 
 
 if __name__ == "__main__":
