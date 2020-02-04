@@ -1,0 +1,27 @@
+{
+    "completions": [
+        {
+            "id": 3001,
+            "lead_time": 1.709,
+            "result": [
+                {
+                    "from_name": "pw",
+                    "to_name": "pw",
+                    "type": "pairwise",
+                    "value": {
+                        "pairwise": [
+                            "left"
+                        ],
+                        "selected": "left"
+                    }
+                }
+            ]
+        }
+    ],
+    "data": {
+        "text1": "To have faith is to trust yourself to the water",
+        "text2": "To have faith is to trust yourself to the water"
+    },
+    "id": 3,
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

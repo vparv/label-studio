@@ -44,6 +44,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager 
 
 from label_studio.models import User
+from models import db
 
 
 logger = logging.getLogger(__name__)
@@ -54,7 +55,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
 
-db = SQLAlchemy()
+#db = SQLAlchemy()
 #migrate = Migrate(app, db)
 
 db.init_app(app)
@@ -161,9 +162,9 @@ def project_get_or_create(multi_session_force_recreate=False):
 #     }
 #     return redirect('/dashboard')
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
 
 
 @app.template_filter('json')
@@ -633,6 +634,14 @@ def api_completions(task_id):
         completion.pop('state', None)  # remove editor state
         completion_id = project.save_completion(task_id, completion)
         log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
+        #Increase tasks that the user has completed
+        print("***********INCREASE NUM TASKS *************")
+        cur_user= User.query.filter_by(email=current_user.email).first()
+        print(cur_user)
+        cur_user.num_tasks = cur_user.num_tasks + 1
+        print("Num tasks")
+        print(cur_user.num_tasks)
+        db.session.commit()
         # try to train model with new completions
         if project.ml_backend:
             project.ml_backend.update_model(project.get_task(task_id), completion, project.project_obj)
@@ -656,6 +665,15 @@ def api_completion_by_id(task_id, completion_id):
         if project.config.get('allow_delete_completions', False):
             project.delete_completion(task_id)
             project.analytics.send(getframeinfo(currentframe()).function)
+            #Delete task completion
+            print("***********DECREASE NUM TASKS *************")
+            cur_user= User.query.filter_by(email=current_user.email).first()
+            print(cur_user)
+            cur_user.num_tasks = cur_user.num_tasks - 1
+            print("Num tasks")
+            print(cur_user.num_tasks)
+            db.session.commit()
+            #
             return make_response('deleted', 204)
         else:
             project.analytics.send(getframeinfo(currentframe()).function, error=422)
