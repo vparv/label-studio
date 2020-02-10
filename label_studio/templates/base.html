@@ -44,14 +44,18 @@
     <a href="/tasks" class="{% if url_for(request.endpoint) == '/tasks' %}active{% endif %}">Tasks</a>
     <span class="delim">|</span>
 
+
+    {% if role == 'admin' %}
     <a href="/import" class="{% if url_for(request.endpoint) == '/import' %}active{% endif %}">Import</a>
     <span class="delim">|</span>
 
     <a href="/export" class="{% if url_for(request.endpoint) == '/export' %}active{% endif %}">Export</a>
     <span class="delim">|</span>
+    
 
     <a href="/setup" class="{% if url_for(request.endpoint) == '/setup' %}active{% endif %}">Setup</a>
     <span class="delim">|</span>
+    {% endif %}
 
     <a href="https://labelstud.io/guide/" target="_blank">Docs</a>
     <span class="delim">|</span>

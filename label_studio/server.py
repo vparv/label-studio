@@ -45,6 +45,7 @@ from flask_login import LoginManager
 
 from label_studio.models import User
 from models import db
+from functools import wraps
 
 
 logger = logging.getLogger(__name__)
@@ -63,6 +64,18 @@ db.init_app(app)
 from label_studio.models import User
 #db.create_all()
 
+def login_required(role="ANY"):
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            if not current_user.is_authenticated:
+              return login_manager.unauthorized()
+            if ((current_user.role != role) and (role != "ANY")):
+                return login_manager.unauthorized()
+            return fn(*args, **kwargs)
+        return decorated_view
+        wrapper.__name__ = fn.__name__
+    return wrapper
 
 
 # input arguments
@@ -223,6 +236,7 @@ def labeling_page():
     return flask.render_template(
         'labeling.html',
         config=project.config,
+        role=current_user.role,
         label_config_line=project.label_config_line,
         task_id=task_id,
         task_data=task_data,
@@ -231,7 +245,6 @@ def labeling_page():
 
 
 @app.route('/welcome')
-@login_required
 def welcome_page():
     """ Label studio frontend: task labeling
     """
@@ -242,7 +255,8 @@ def welcome_page():
         'welcome.html',
         config=project.config,
         project=project.project_obj,
-        on_boarding=project.on_boarding
+        on_boarding=project.on_boarding,
+        role=current_user.role
     )
 
 
@@ -250,6 +264,8 @@ def welcome_page():
 def tasks_page():
     """ Tasks and completions page: tasks.html
     """
+    
+
     project = project_get_or_create()
 
     label_config = open(project.config['label_config']).read()  # load editor config from XML
@@ -267,11 +283,13 @@ def tasks_page():
         label_config=label_config,
         task_ids=task_ids,
         completions=project.get_completions_ids(),
-        completed_at=completed_at
+        completed_at=completed_at,
+        role=current_user.role
     )
 
 
 @app.route('/setup')
+@login_required(role="admin")
 def setup_page():
     """ Setup label config
     """
@@ -287,35 +305,48 @@ def setup_page():
         label_config_full=project.label_config_full,
         templates=templates,
         input_values=input_values,
-        multi_session=input_args.command == 'start-multi-session'
+        multi_session=input_args.command == 'start-multi-session',
+        role=current_user.role
     )
 
 
 @app.route('/import')
+@login_required(role="admin")
 def import_page():
     """ Import tasks from JSON, CSV, ZIP and more
     """
     project = project_get_or_create()
 
+
     project.analytics.send(getframeinfo(currentframe()).function)
+
+    print("*****************************IMPORT")
+    print(current_user.role)
+    print("*****************************")
     return flask.render_template(
         'import.html',
         config=project.config,
-        project=project.project_obj
+        project=project.project_obj,
+        role=current_user.role
     )
 
 
 @app.route('/export')
+@login_required(role = "admin")
 def export_page():
     """ Export completions as JSON or using converters
     """
     project = project_get_or_create()
     project.analytics.send(getframeinfo(currentframe()).function)
+    print("*****************************EXPORT")
+    print(current_user.role)
+    print("*****************************")
     return flask.render_template(
         'export.html',
         config=project.config,
         formats=project.converter.supported_formats,
-        project=project.project_obj
+        project=project.project_obj,
+        role=current_user.role
     )
 
 
@@ -526,6 +557,7 @@ def api_import():
 
 
 @app.route('/api/export', methods=['GET'])
+@login_required(role = "admin")
 def api_export():
     export_format = request.args.get('format')
     project = project_get_or_create()
@@ -642,6 +674,7 @@ def api_completions(task_id):
         print("Num tasks")
         print(cur_user.num_tasks)
         db.session.commit()
+        db.session.flush()
         # try to train model with new completions
         if project.ml_backend:
             project.ml_backend.update_model(project.get_task(task_id), completion, project.project_obj)
@@ -673,6 +706,7 @@ def api_completion_by_id(task_id, completion_id):
             print("Num tasks")
             print(cur_user.num_tasks)
             db.session.commit()
+            db.session.flush()
             #
             return make_response('deleted', 204)
         else:
@@ -701,6 +735,7 @@ def api_completion_update(task_id, completion_id):
 
 
 @app.route('/api/projects/1/expert_instruction')
+@login_required
 @exception_treatment
 def api_instruction():
     """ Instruction for annotators
