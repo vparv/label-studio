@@ -264,8 +264,6 @@ def welcome_page():
 def tasks_page():
     """ Tasks and completions page: tasks.html
     """
-    
-
     project = project_get_or_create()
 
     label_config = open(project.config['label_config']).read()  # load editor config from XML
@@ -320,9 +318,6 @@ def import_page():
 
     project.analytics.send(getframeinfo(currentframe()).function)
 
-    print("*****************************IMPORT")
-    print(current_user.role)
-    print("*****************************")
     return flask.render_template(
         'import.html',
         config=project.config,
@@ -338,9 +333,6 @@ def export_page():
     """
     project = project_get_or_create()
     project.analytics.send(getframeinfo(currentframe()).function)
-    print("*****************************EXPORT")
-    print(current_user.role)
-    print("*****************************")
     return flask.render_template(
         'export.html',
         config=project.config,
@@ -348,6 +340,23 @@ def export_page():
         project=project.project_obj,
         role=current_user.role
     )
+
+@app.route('/admin')
+@login_required(role = "admin")
+def admin_panel():
+    num_workers= db.session.execute('select count(id) as c from user').scalar() - 1
+    worker_names = list(db.session.execute('select name as c from user'))
+    worker_num_tasks = list(db.session.execute('select num_tasks as c from user'))
+    print("*************************")
+    print(type(worker_names))
+    print("*************************")
+
+    return flask.render_template(
+        'admin.html',
+        num_workers= num_workers,
+        worker_names = worker_names,
+        worker_num_tasks = worker_num_tasks,
+        role=current_user.role)    
 
 
 @app.route('/api/render-label-studio', methods=['GET', 'POST'])

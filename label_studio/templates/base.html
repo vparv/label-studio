@@ -55,6 +55,9 @@
 
     <a href="/setup" class="{% if url_for(request.endpoint) == '/setup' %}active{% endif %}">Setup</a>
     <span class="delim">|</span>
+
+    <a href="/admin" class="{% if url_for(request.endpoint) == '/admin' %}active{% endif %}">Admin</a>
+    <span class="delim">|</span>
     {% endif %}
 
     <a href="https://labelstud.io/guide/" target="_blank">Docs</a>
