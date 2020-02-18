@@ -390,6 +390,23 @@ class Project(object):
             num=len(completions), output_dir=self.config["output_dir"]))
         return sorted(completions)
 
+    def get_completions_user(self):
+        user_dict={}
+        all_ids = self.get_completions_ids()
+        for i in all_ids:
+            data = self.get_task_with_completions(i)
+            print(data)
+            if(data['completions'][0]['user']):
+                user_dict[i] = data['completions'][0]['user']
+            else:
+                user_dict[i] = ''
+        print("******USER DICT****")
+        print(user_dict)
+        return user_dict
+
+
+
+
     def get_completed_at(self, task_ids):
         """ Get completed time for list of task ids
 
@@ -453,13 +470,17 @@ class Project(object):
             completion['user'] = user_id
             task['completions'].append(completion)  
 
+
+        print("******HELLO FROM HERE")
+        print(completion['user'])
+
         self._update_derived_output_schema(completion)
 
         # write task + completions to file
         filename = os.path.join(self.config['output_dir'], str(task_id) + '.json')
         os.mkdir(self.config['output_dir']) if not os.path.exists(self.config['output_dir']) else ()
         json.dump(task, open(filename, 'w'), indent=4, sort_keys=True)
-        return completion['id']
+        return [completion['id'],completion['user']]
 
     def delete_completion(self, task_id):
         """ Delete completion from disk

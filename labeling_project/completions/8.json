@@ -1,28 +1,29 @@
 {
     "completions": [
         {
-            "id": 1001,
-            "lead_time": 3.599,
+            "id": 8001,
+            "lead_time": 2.668,
             "result": [
                 {
                     "from_name": "sentiment",
-                    "id": "3YXl921hku",
+                    "id": "wvixNB2HZJ",
                     "to_name": "my_text",
                     "type": "choices",
                     "value": {
                         "choices": [
+                            "Service Operation and Security",
                             "Analytics and Research"
                         ]
                     }
                 }
             ],
-            "user": "ADMIN"
+            "user": "new"
         }
     ],
     "data": {
-        "reviewText": "The main reason we use your information is #to deliver and improve our services#."
+        "reviewText": "We share your information with other Match Group companies #to benefit you in two respects: for other Match Group companies to assist us in processing your information, as service providers, upon our instructions and on our behalf#."
     },
-    "id": 1,
+    "id": 8,
     "predictions": [],
     "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
 }

@@ -1,26 +1,29 @@
 {
     "completions": [
         {
-            "id": 2001,
-            "lead_time": 3.473,
+            "id": 7001,
+            "lead_time": 2.766,
             "result": [
                 {
                     "from_name": "sentiment",
-                    "id": "6xu_3e9Tqo",
+                    "id": "36DxWhnt1E",
                     "to_name": "my_text",
                     "type": "choices",
                     "value": {
                         "choices": [
-                            "Providing Service/Feature"
+                            "Service Operation and Security",
+                            "Analytics and Research"
                         ]
                     }
                 }
-            ]
+            ],
+            "user": "new"
         }
     ],
     "data": {
-        "reviewText": "We primarily use the information we collect #to provide, administer, operate and improve our Services#."
+        "reviewText": "We collect and use your personal information #to comply with laws#."
     },
-    "id": 2,
+    "id": 7,
+    "predictions": [],
     "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
 }

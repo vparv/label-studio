@@ -2,27 +2,27 @@
     "completions": [
         {
             "id": 3001,
-            "lead_time": 3.307,
+            "lead_time": 1.73,
             "result": [
                 {
                     "from_name": "sentiment",
-                    "id": "9kJiLsOFii",
+                    "id": "pDEDbE4BdG",
                     "to_name": "my_text",
                     "type": "choices",
                     "value": {
                         "choices": [
-                            "Service Operation and Security",
-                            "Analytics and Research"
+                            "Legal Requirement"
                         ]
                     }
                 }
-            ]
+            ],
+            "user": "maya"
         }
     ],
     "data": {
         "reviewText": "When you choose to use these features, we collect information from you #to process your transaction#."
     },
     "id": 3,
-    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json",
-    "who_completed": "maya"
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
 }

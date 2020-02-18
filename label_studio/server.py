@@ -334,6 +334,8 @@ def tasks_page():
     filtered_complete = list(filter(lambda func: func <= upper_bound, all_complete))
     filtered_complete = list(filter(lambda f: f >= lower_bound, filtered_complete))
 
+    user_complete=project.get_completions_user();
+
     return flask.render_template(
         'tasks.html',
         show_paths=input_args.command != 'start-multi-session',
@@ -342,6 +344,7 @@ def tasks_page():
         task_ids=task_ids,
         completions=filtered_complete,
         completed_at=completed_at,
+        user_complete=user_complete,
         role=current_user.role
     )
 
@@ -769,21 +772,22 @@ def api_completions(task_id):
         completion.pop('state', None)  # remove editor state
         cur_user= User.query.filter_by(email=current_user.email).first()
 
-        completion_id = project.save_completion(task_id, completion, cur_user.name)
+        completion_id = project.save_completion(task_id, completion, cur_user.name)[0]
+        completion_user = project.save_completion(task_id, completion, cur_user.name)[1]
         log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
-        #Increase tasks that the user has completed
+        #Increase tasks that the user has completeds
         print("***********INCREASE NUM TASKS *************")
         print(cur_user)
         cur_user.num_tasks = cur_user.num_tasks + 1
         print("Num tasks")
         print(cur_user.num_tasks)
-        db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
+        #db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
         db.session.flush()
         # try to train model with new completions
         if project.ml_backend:
             project.ml_backend.update_model(project.get_task(task_id), completion, project.project_obj)
         project.analytics.send(getframeinfo(currentframe()).function)
-        return make_response(json.dumps({'id': completion_id}), 201)
+        return make_response(json.dumps({'id': completion_id, 'user': completion_user}), 201)
 
     else:
         project.analytics.send(getframeinfo(currentframe()).function, error=500)
@@ -834,7 +838,7 @@ def api_completion_update(task_id, completion_id):
     completion['id'] = int(completion_id)
     cur_user= User.query.filter_by(email=current_user.email).first()
 
-    project.save_completion(task_id, completion, cur_user.name)
+    project.save_completion(task_id, completion, cur_user.name)[0]
     log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
     project.analytics.send(getframeinfo(currentframe()).function)
     return make_response('ok', 201)
