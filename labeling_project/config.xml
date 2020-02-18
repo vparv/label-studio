@@ -1,6 +1,17 @@
 <View>
-  <Header>Select one of two items</Header>
-  <Pairwise name="pw" toName="txt-1,txt-2"/>
-  <Text name="txt-1" value="$text1" />
-  <Text name="txt-2" value="$text2" />
-</View>
+  <Text name="my_text" value="$reviewText"/>
+  <View style="box-shadow: 2px 2px 5px #999;
+               padding: 20px; margin-top: 2em;
+               border-radius: 5px;">
+    <Header value="Choose all purpose categories for the text between the two # signs:"/>
+    <Choices name="sentiment" toName="my_text"
+             choice="multiple" showInLine="true">
+      <Choice value="Providing Service/Feature"/>
+      <Choice value="Service Operation and Security"/>
+      <Choice value="Analytics and Research"/>
+      <Choice value="Legal Requirement"/>
+      <Choice value="Merger/Acquisition"/>
+      <Choice value="Advertisement"/>
+    </Choices>
+  </View>
+</View> 

@@ -1,0 +1,28 @@
+{
+    "completions": [
+        {
+            "id": 5001,
+            "lead_time": 2.921,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "lxunckG-_a",
+                    "to_name": "my_text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Legal Requirement",
+                            "Merger/Acquisition"
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "data": {
+        "reviewText": "We use the information we collect about you and your activity on our services #to personalize the services we offer#."
+    },
+    "id": 5,
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json",
+    "who_completed": "maya"
+}

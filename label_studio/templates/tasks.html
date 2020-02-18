@@ -29,7 +29,9 @@
         <div class="two column center aligned clearing task-buttons">
           {% if task_ids|length > 0 %}
             <a class="ui button positive" href="/">Start Labeling</a>
+            {% if role =="admin" %}
             <a id="clear-tasks-button" class="ui button red">Delete All Tasks</a>
+            {% endif %}
           {% else %}
             <a class="ui button positive" href="/import">Import Tasks</a>
           {% endif %}
@@ -61,7 +63,11 @@
               {% if id in completions %}
                 <i data-task-id="{{ id }}" class="fas fa-trash-alt trash remove-completion"></i>
               {% endif %}
+              {% if user in completions %}
+                <p> user </p>
+              {% endif %}
             </td>
+
           </tr>
         {% endfor %}
       </table>

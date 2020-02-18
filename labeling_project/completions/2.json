@@ -2,25 +2,24 @@
     "completions": [
         {
             "id": 2001,
-            "lead_time": 3.085,
+            "lead_time": 3.473,
             "result": [
                 {
-                    "from_name": "pw",
-                    "to_name": "pw",
-                    "type": "pairwise",
+                    "from_name": "sentiment",
+                    "id": "6xu_3e9Tqo",
+                    "to_name": "my_text",
+                    "type": "choices",
                     "value": {
-                        "pairwise": [
-                            "left"
-                        ],
-                        "selected": "left"
+                        "choices": [
+                            "Providing Service/Feature"
+                        ]
                     }
                 }
             ]
         }
     ],
     "data": {
-        "text1": "To have faith is to trust yourself to the water",
-        "text2": "To have faith is to trust yourself to the water"
+        "reviewText": "We primarily use the information we collect #to provide, administer, operate and improve our Services#."
     },
     "id": 2,
     "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"

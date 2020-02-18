@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(1000))
     num_tasks = db.Column(db.Integer)
     role = db.Column(db.String(100))
+    worker_id = db.Column(db.Integer)
 
 # class TaskInfo(db.Model):
 # 	__tablename__ = "user_tasks"

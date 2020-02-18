@@ -424,7 +424,7 @@ class Project(object):
             data = None
         return data
 
-    def save_completion(self, task_id, completion):
+    def save_completion(self, task_id, completion, user_id):
         """ Save completion
 
         :param task_id: task id
@@ -450,7 +450,8 @@ class Project(object):
         # write new completion
         if not updated:
             completion['id'] = task['id'] * 1000 + len(task['completions']) + 1
-            task['completions'].append(completion)
+            completion['user'] = user_id
+            task['completions'].append(completion)  
 
         self._update_derived_output_schema(completion)
 

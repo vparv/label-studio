@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 4001,
+            "lead_time": 5.785,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "fmPIObqd1v",
+                    "to_name": "my_text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Analytics and Research",
+                            "Legal Requirement"
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "data": {
+        "reviewText": "We also collect information about you from various third parties in order #to provide better service to you#, or as part of the employment application process."
+    },
+    "id": 4,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json",
+    "who_completed": "maya"
+}

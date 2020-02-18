@@ -124,9 +124,9 @@ def project_get_or_create(multi_session_force_recreate=False):
             'multi_session': True,
         })
     else:
-        if multi_session_force_recreate:
-            raise NotImplementedError(
-                '"multi_session_force_recreate" option supported only with "start-multi-session" mode')
+        # if multi_session_force_recreate:
+        #     raise NotImplementedError(
+        #         '"multi_session_force_recreate" option supported only with "start-multi-session" mode')
         user = project = input_args.project_name  # in standalone mode, user and project are singletons and consts
         return Project.get_or_create(input_args.project_name, input_args, context={
             'user': user,
@@ -215,24 +215,55 @@ def send_log():
 
 
 @app.route('/')
+@login_required(role='ANY')
 def labeling_page():
     """ Label studio frontend: task labeling
     """
     project = project_get_or_create()
     if len(project.tasks) == 0:
-        return redirect('/welcome')
+        return redirect('/tasks')
 
     # task data: load task or task with completions if it exists
     task_data = None
     task_id = request.args.get('task_id', None)
 
+    #added code
+    num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
+    num_tasks = len(project.tasks)
+    num_each = num_tasks//num_workers
+    remain = num_tasks % num_workers
+
+    lower_bound = 0
+    upper_bound = num_tasks
+
+    if(current_user.role == "worker"):
+        cur_id = current_user.worker_id
+        lower_bound = cur_id*num_each
+        upper_bound = cur_id*num_each+num_each - 1
+
+    #
+    print("*****BEFORE task id in labeling****")
+    print(task_id)
+
     if task_id is not None:
+        print("*****task id in labeling****")
+        print(task_id)
         task_data = project.get_task_with_completions(task_id) or project.get_task(task_id)
         if project.ml_backend:
             task_data = deepcopy(task_data)
             task_data['predictions'] = project.ml_backend.make_predictions(task_data, project)
 
     project.analytics.send(getframeinfo(currentframe()).function)
+
+    # num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
+    # num_tasks = len(task_ids)
+    # num_each = num_tasks//num_workers
+    # remain = num_tasks % num_workers
+
+    # if(current_user.role == "worker"):
+    #     cur_id = current_user.worker_id
+    #     task_ids = task_ids[cur_id*num_each: cur_id*num_each+num_each]
+
     return flask.render_template(
         'labeling.html',
         config=project.config,
@@ -245,6 +276,7 @@ def labeling_page():
 
 
 @app.route('/welcome')
+@login_required(role='ANY')
 def welcome_page():
     """ Label studio frontend: task labeling
     """
@@ -261,6 +293,7 @@ def welcome_page():
 
 
 @app.route('/tasks')
+@login_required(role='ANY')
 def tasks_page():
     """ Tasks and completions page: tasks.html
     """
@@ -270,17 +303,44 @@ def tasks_page():
     task_ids = project.get_tasks().keys()
     completed_at = project.get_completed_at(task_ids)
 
+    #
+    num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
+    num_tasks = len(task_ids)
+    num_each = num_tasks//num_workers
+    remain = num_tasks % num_workers
+
+    #
+
+
     # sort by completed time
     task_ids = sorted([(i, completed_at[i] if i in completed_at else '9') for i in task_ids], key=lambda x: x[1])
     task_ids = [i[0] for i in task_ids]  # take only id back
     project.analytics.send(getframeinfo(currentframe()).function)
+
+    lower_bound = 0
+    upper_bound = num_tasks
+
+    if(current_user.role == "worker"):
+        cur_id = current_user.worker_id
+        lower_bound = cur_id*num_each
+        upper_bound = cur_id*num_each+num_each - 1
+        task_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , task_ids))
+
+    print("*********Completion Ids*********")
+    print(lower_bound)
+    print(upper_bound)
+    print("******bounds****")
+    all_complete = project.get_completions_ids()
+    filtered_complete = list(filter(lambda func: func <= upper_bound, all_complete))
+    filtered_complete = list(filter(lambda f: f >= lower_bound, filtered_complete))
+
     return flask.render_template(
         'tasks.html',
         show_paths=input_args.command != 'start-multi-session',
         config=project.config,
         label_config=label_config,
         task_ids=task_ids,
-        completions=project.get_completions_ids(),
+        completions=filtered_complete,
         completed_at=completed_at,
         role=current_user.role
     )
@@ -344,9 +404,9 @@ def export_page():
 @app.route('/admin')
 @login_required(role = "admin")
 def admin_panel():
-    num_workers= db.session.execute('select count(id) as c from user').scalar() - 1
-    worker_names = list(db.session.execute('select name as c from user'))
-    worker_num_tasks = list(db.session.execute('select num_tasks as c from user'))
+    num_workers= db.session.execute('select count(id) as c from user where role="worker"').scalar()
+    worker_names = list(db.session.execute('select name as c from user where role="worker"'))
+    worker_num_tasks = list(db.session.execute('select num_tasks as c from user where role="worker"'))
     print("*************************")
     print(type(worker_names))
     print("*************************")
@@ -592,8 +652,25 @@ def api_generate_next_task():
     # try to find task is not presented in completions
     project = project_get_or_create()
     completions = project.get_completions_ids()
+    #filter tasks
+    num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
+    num_tasks = len(project.tasks)
+    num_each = num_tasks//num_workers
+    remain = num_tasks % num_workers
+
+    lower_bound = 0
+    upper_bound = num_tasks
+
+    if(current_user.role == "worker"):
+        cur_id = current_user.worker_id
+        lower_bound = cur_id*num_each
+        upper_bound = cur_id*num_each+num_each -1 
+
+
+    #
+
     for task_id, task in project.iter_tasks():
-        if task_id not in completions:
+        if task_id not in completions and task_id >= lower_bound and task_id <= upper_bound:
             log.info(msg='New task for labeling', extra=task)
             project.analytics.send(getframeinfo(currentframe()).function)
             # try to use ml backend for predictions
@@ -625,8 +702,25 @@ def api_all_task_ids():
     """
     project = project_get_or_create()
     ids = sorted(project.get_task_ids())
+    #filter id
+    num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
+    num_tasks = len(project.tasks)
+    num_each = num_tasks//num_workers
+    remain = num_tasks % num_workers
+
+    lower_bound = 0
+    upper_bound = num_tasks
+
+    if(current_user.role == "worker"):
+        cur_id = current_user.worker_id
+        lower_bound = cur_id*num_each
+        upper_bound = cur_id*num_each+num_each -1 
+
+    f_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , ids))
+
+    #
     project.analytics.send(getframeinfo(currentframe()).function)
-    return make_response(jsonify(ids), 200)
+    return make_response(jsonify(f_ids), 200)
 
 
 @app.route('/api/tasks/<task_id>/', methods=['GET'])
@@ -673,16 +767,17 @@ def api_completions(task_id):
     if request.method == 'POST':
         completion = request.json
         completion.pop('state', None)  # remove editor state
-        completion_id = project.save_completion(task_id, completion)
+        cur_user= User.query.filter_by(email=current_user.email).first()
+
+        completion_id = project.save_completion(task_id, completion, cur_user.name)
         log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
         #Increase tasks that the user has completed
         print("***********INCREASE NUM TASKS *************")
-        cur_user= User.query.filter_by(email=current_user.email).first()
         print(cur_user)
         cur_user.num_tasks = cur_user.num_tasks + 1
         print("Num tasks")
         print(cur_user.num_tasks)
-        db.session.commit()
+        db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
         db.session.flush()
         # try to train model with new completions
         if project.ml_backend:
@@ -737,7 +832,9 @@ def api_completion_update(task_id, completion_id):
 
     completion.pop('state', None)  # remove editor state
     completion['id'] = int(completion_id)
-    project.save_completion(task_id, completion)
+    cur_user= User.query.filter_by(email=current_user.email).first()
+
+    project.save_completion(task_id, completion, cur_user.name)
     log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
     project.analytics.send(getframeinfo(currentframe()).function)
     return make_response('ok', 201)
