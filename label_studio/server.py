@@ -46,6 +46,12 @@ from flask_login import LoginManager
 from label_studio.models import User
 from models import db
 from functools import wraps
+from flaskext.mysql import MySQL
+import sqlite3
+from flask import g
+
+
+
 
 
 logger = logging.getLogger(__name__)
@@ -58,6 +64,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
 #db = SQLAlchemy()
 #migrate = Migrate(app, db)
+
+DATABASE = 'admin.sqlite3'
+
+def get_db():
+    admin_db = getattr(g, '_database', None)
+    if admin_db is None:
+        admin_db = g._database = sqlite3.connect(DATABASE)
+    return admin_db
 
 db.init_app(app)
 
@@ -239,7 +253,7 @@ def labeling_page():
     if(current_user.role == "worker"):
         cur_id = current_user.worker_id
         lower_bound = cur_id*num_each
-        upper_bound = cur_id*num_each+num_each - 1
+        upper_bound = cur_id*num_each+num_each
 
     #
     print("*****BEFORE task id in labeling****")
@@ -323,7 +337,7 @@ def tasks_page():
     if(current_user.role == "worker"):
         cur_id = current_user.worker_id
         lower_bound = cur_id*num_each
-        upper_bound = cur_id*num_each+num_each - 1
+        upper_bound = cur_id*num_each+num_each
         task_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , task_ids))
 
     print("*********Completion Ids*********")
@@ -407,18 +421,23 @@ def export_page():
 @app.route('/admin')
 @login_required(role = "admin")
 def admin_panel():
-    num_workers= db.session.execute('select count(id) as c from user where role="worker"').scalar()
-    worker_names = list(db.session.execute('select name as c from user where role="worker"'))
-    worker_num_tasks = list(db.session.execute('select num_tasks as c from user where role="worker"'))
+    num= get_db().execute('select count(user) as c from num_completed').fetchone()[0]
+    worker_names = list(get_db().execute('select * from num_completed'))
+    #worker_num_tasks = list(get_db().execute('select num as c from num_completed'))
+    worker_info = []
+    print("************we out here printing info!!********")
+    print(worker_names)
+    for i in range(0,len(worker_names)):
+        worker_info.append([worker_names[i][0],worker_names[i][1]])
+
     print("*************************")
-    print(type(worker_names))
+    print(worker_info)
     print("*************************")
 
     return flask.render_template(
         'admin.html',
-        num_workers= num_workers,
-        worker_names = worker_names,
-        worker_num_tasks = worker_num_tasks,
+        num_workers= num - 1,
+        worker_info = worker_info,
         role=current_user.role)    
 
 
@@ -667,7 +686,7 @@ def api_generate_next_task():
     if(current_user.role == "worker"):
         cur_id = current_user.worker_id
         lower_bound = cur_id*num_each
-        upper_bound = cur_id*num_each+num_each -1 
+        upper_bound = cur_id*num_each+num_each
 
 
     #
@@ -717,7 +736,7 @@ def api_all_task_ids():
     if(current_user.role == "worker"):
         cur_id = current_user.worker_id
         lower_bound = cur_id*num_each
-        upper_bound = cur_id*num_each+num_each -1 
+        upper_bound = cur_id*num_each+num_each
 
     f_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , ids))
 
@@ -777,12 +796,19 @@ def api_completions(task_id):
         log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
         #Increase tasks that the user has completeds
         print("***********INCREASE NUM TASKS *************")
-        print(cur_user)
+        print(cur_user.name)
         cur_user.num_tasks = cur_user.num_tasks + 1
         print("Num tasks")
         print(cur_user.num_tasks)
-        #db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
-        db.session.flush()
+        # db.session.commit()
+        # db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
+        # db.session.commit()
+        get_db().execute('update num_completed SET num = :val where user = :u', {'val':cur_user.num_tasks,'u':cur_user.name})
+        worker_num_tasks = list(get_db().execute('select num as c from num_completed'))
+        get_db().commit()
+        get_db().flush()
+        print(worker_num_tasks)
+
         # try to train model with new completions
         if project.ml_backend:
             project.ml_backend.update_model(project.get_task(task_id), completion, project.project_obj)
@@ -811,11 +837,12 @@ def api_completion_by_id(task_id, completion_id):
             cur_user= User.query.filter_by(email=current_user.email).first()
             print(cur_user)
             cur_user.num_tasks = cur_user.num_tasks - 1
-            print("Num tasks")
-            print(cur_user.num_tasks)
-            db.session.commit()
-            db.session.flush()
-            #
+            # db.session.commit()
+            # db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
+            # db.session.commit()
+            get_db().execute('update num_completed SET num = :val where user = :u', {'val':cur_user.num_tasks,'u':cur_user.name})
+            get_db().commit()
+            get_db().flush()
             return make_response('deleted', 204)
         else:
             project.analytics.send(getframeinfo(currentframe()).function, error=422)

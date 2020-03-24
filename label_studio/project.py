@@ -135,12 +135,17 @@ class Project(object):
         :param completion:
         :return:
         """
+        print("***********updating output schema!!!!******")
+        print(completion['result'])
+        print(completion['user'])
         for result in completion['result']:
             self.derived_output_schema['from_name_to_name_type'].add((
-                result['from_name'], result['to_name'], result['type']
+                result['from_name'], result['to_name'], result['type'],completion['user']
             ))
             for label in result['value'][result['type']]:
                 self.derived_output_schema['labels'][result['from_name']].add(label)
+            self.derived_output_schema['labels']['user'] = completion['user']
+        print(self.derived_output_schema)
 
     def validate_label_config_on_derived_input_schema(self, config_string_or_parsed_config):
         """
@@ -400,9 +405,7 @@ class Project(object):
                 user_dict[i] = data['completions'][0]['user']
             else:
                 user_dict[i] = ''
-        print("******USER DICT****")
-        print(user_dict)
-        return user_dict
+        
 
 
 
@@ -462,6 +465,7 @@ class Project(object):
             for i, item in enumerate(task['completions']):
                 if item['id'] == completion['id']:
                     task['completions'][i].update(completion)
+                    completion['user'] = user_id
                     updated = True
 
         # write new completion
@@ -470,9 +474,6 @@ class Project(object):
             completion['user'] = user_id
             task['completions'].append(completion)  
 
-
-        print("******HELLO FROM HERE")
-        print(completion['user'])
 
         self._update_derived_output_schema(completion)
 

@@ -3,7 +3,11 @@
 
 	<h1> Admin Panel Page </h1>	
 	<p> Number of workers : {{num_workers}} </p>
-	<p> Worker names : {{worker_names}} </p>
-	<p> Worker tasks completed : {{worker_num_tasks}} </p>
+	<h3> Number of tasks completed: </h3>
+	<ul>
+		{% for i in worker_info%}
+  		<li>{{i[0]}} : {{i[1]}}</li>
+  		{% endfor %}
+	</ul>
 
 {% endblock %}

@@ -1,52 +1,7 @@
 [
     {
         "data": {
-            "reviewText": "The main reason we use your information is #to deliver and improve our services#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "We primarily use the information we collect #to provide, administer, operate and improve our Services#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "When you choose to use these features, we collect information from you #to process your transaction#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "We also collect information about you from various third parties in order #to provide better service to you#, or as part of the employment application process."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "We use the information we collect about you and your activity on our services #to personalize the services we offer#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "Some of the information we collect from your device (e.g., IP address) can sometimes be used #to approximate your device’s location#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "We collect and use your personal information #to comply with laws#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "We share your information with other Match Group companies #to benefit you in two respects: for other Match Group companies to assist us in processing your information, as service providers, upon our instructions and on our behalf#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "In order #to improve your chances at building significant connections with others#, we may make you visible on other Match Group services or allow you #to benefit from cross-platform functionalities#."
-        }
-    },
-    {
-        "data": {
-            "reviewText": "If we know you’re working with a particular real estate agent, we may share information about your saved homes and searches with that agent #to let them serve you more effectively#."
+            "reviewText": "We may collect and store any personal information you provide while using our Service. This may include identifying information, such as your name, address and email address. We automatically collect information from your browser or device when you visit our service. This informatio could include your IP address, device ID and type. We may use information that we collect about you to deliver and improve our products and services, and manage our buisness."
         }
     }
 ]

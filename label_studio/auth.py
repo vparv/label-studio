@@ -7,6 +7,7 @@ from flask_login import login_user, logout_user, login_required
 from label_studio.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login',methods=['GET'])
@@ -55,4 +56,10 @@ def signup_post():
     db.session.commit()
 
     return flask.render_template('login.html')
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return flask.redirect('/')
 
