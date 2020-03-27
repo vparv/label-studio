@@ -252,31 +252,18 @@ def labeling_page():
 
     if(current_user.role == "worker"):
         cur_id = current_user.worker_id
-        lower_bound = cur_id*num_each
+        lower_bound = cur_id*num_each + 1
         upper_bound = cur_id*num_each+num_each
-
-    #
-    print("*****BEFORE task id in labeling****")
-    print(task_id)
+        if num_tasks - upper_bound < num_workers:
+            upper_bound = num_tasks
 
     if task_id is not None:
-        print("*****task id in labeling****")
-        print(task_id)
         task_data = project.get_task_with_completions(task_id) or project.get_task(task_id)
         if project.ml_backend:
             task_data = deepcopy(task_data)
             task_data['predictions'] = project.ml_backend.make_predictions(task_data, project)
 
     project.analytics.send(getframeinfo(currentframe()).function)
-
-    # num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
-    # num_tasks = len(task_ids)
-    # num_each = num_tasks//num_workers
-    # remain = num_tasks % num_workers
-
-    # if(current_user.role == "worker"):
-    #     cur_id = current_user.worker_id
-    #     task_ids = task_ids[cur_id*num_each: cur_id*num_each+num_each]
 
     return flask.render_template(
         'labeling.html',
@@ -317,14 +304,10 @@ def tasks_page():
     task_ids = project.get_tasks().keys()
     completed_at = project.get_completed_at(task_ids)
 
-    #
     num_workers= db.session.execute('select count(id) as c from user where role="worker" ').scalar()
     num_tasks = len(task_ids)
     num_each = num_tasks//num_workers
     remain = num_tasks % num_workers
-
-    #
-
 
     # sort by completed time
     task_ids = sorted([(i, completed_at[i] if i in completed_at else '9') for i in task_ids], key=lambda x: x[1])
@@ -334,21 +317,22 @@ def tasks_page():
     lower_bound = 0
     upper_bound = num_tasks
 
+    
+
     if(current_user.role == "worker"):
         cur_id = current_user.worker_id
-        lower_bound = cur_id*num_each
+        lower_bound = cur_id*num_each + 1
         upper_bound = cur_id*num_each+num_each
+        if num_tasks - upper_bound < num_workers:
+            upper_bound = num_tasks
         task_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , task_ids))
 
-    print("*********Completion Ids*********")
-    print(lower_bound)
-    print(upper_bound)
-    print("******bounds****")
     all_complete = project.get_completions_ids()
     filtered_complete = list(filter(lambda func: func <= upper_bound, all_complete))
     filtered_complete = list(filter(lambda f: f >= lower_bound, filtered_complete))
 
     user_complete=project.get_completions_user();
+
 
     return flask.render_template(
         'tasks.html',
@@ -425,14 +409,9 @@ def admin_panel():
     worker_names = list(get_db().execute('select * from num_completed'))
     #worker_num_tasks = list(get_db().execute('select num as c from num_completed'))
     worker_info = []
-    print("************we out here printing info!!********")
-    print(worker_names)
     for i in range(0,len(worker_names)):
         worker_info.append([worker_names[i][0],worker_names[i][1]])
 
-    print("*************************")
-    print(worker_info)
-    print("*************************")
 
     return flask.render_template(
         'admin.html',
@@ -687,9 +666,8 @@ def api_generate_next_task():
         cur_id = current_user.worker_id
         lower_bound = cur_id*num_each
         upper_bound = cur_id*num_each+num_each
-
-
-    #
+        if num_tasks - upper_bound < num_workers:
+            upper_bound = num_tasks
 
     for task_id, task in project.iter_tasks():
         if task_id not in completions and task_id >= lower_bound and task_id <= upper_bound:
@@ -737,6 +715,8 @@ def api_all_task_ids():
         cur_id = current_user.worker_id
         lower_bound = cur_id*num_each
         upper_bound = cur_id*num_each+num_each
+        if num_tasks - upper_bound < num_workers:
+            upper_bound = num_tasks
 
     f_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , ids))
 
@@ -794,20 +774,11 @@ def api_completions(task_id):
         completion_id = project.save_completion(task_id, completion, cur_user.name)[0]
         completion_user = project.save_completion(task_id, completion, cur_user.name)[1]
         log.info(msg='Completion saved', extra={'task_id': task_id, 'output': request.json})
-        #Increase tasks that the user has completeds
-        print("***********INCREASE NUM TASKS *************")
-        print(cur_user.name)
-        cur_user.num_tasks = cur_user.num_tasks + 1
-        print("Num tasks")
-        print(cur_user.num_tasks)
-        # db.session.commit()
-        # db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
-        # db.session.commit()
-        get_db().execute('update num_completed SET num = :val where user = :u', {'val':cur_user.num_tasks,'u':cur_user.name})
+        # Increase tasks that the user has completed
+
+        get_db().execute('update num_completed SET num = num + 1 where user = :u', {'u':cur_user.name})
         worker_num_tasks = list(get_db().execute('select num as c from num_completed'))
         get_db().commit()
-        get_db().flush()
-        print(worker_num_tasks)
 
         # try to train model with new completions
         if project.ml_backend:
@@ -833,16 +804,10 @@ def api_completion_by_id(task_id, completion_id):
             project.delete_completion(task_id)
             project.analytics.send(getframeinfo(currentframe()).function)
             #Delete task completion
-            print("***********DECREASE NUM TASKS *************")
             cur_user= User.query.filter_by(email=current_user.email).first()
-            print(cur_user)
-            cur_user.num_tasks = cur_user.num_tasks - 1
-            # db.session.commit()
-            # db.session.execute('update user SET num_tasks = :val where id = :u_id', {'val':cur_user.num_tasks,'u_id':cur_user.id} )
-            # db.session.commit()
-            get_db().execute('update num_completed SET num = :val where user = :u', {'val':cur_user.num_tasks,'u':cur_user.name})
+            
+            get_db().execute('update num_completed SET num = :num - 1 where user = :u', {'u':cur_user.name})
             get_db().commit()
-            get_db().flush()
             return make_response('deleted', 204)
         else:
             project.analytics.send(getframeinfo(currentframe()).function, error=422)

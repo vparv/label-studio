@@ -2,8 +2,10 @@ MANIFEST.in
 README.md
 setup.py
 label_studio/__init__.py
+label_studio/auth.py
 label_studio/config.json
 label_studio/logger.json
+label_studio/models.py
 label_studio/project.py
 label_studio/server.py
 label_studio.egg-info/PKG-INFO
@@ -26,6 +28,7 @@ label_studio/examples/text_named_entity/config.xml
 label_studio/examples/text_pairwise/config.xml
 label_studio/examples/text_references/config.xml
 label_studio/examples/text_sentiment/config.xml
+label_studio/static/.DS_Store
 label_studio/static/favicon.ico
 label_studio/static/css/codemirror.css
 label_studio/static/css/fontall.min.css
@@ -100,6 +103,7 @@ label_studio/static/webfonts/fa-solid-900.svg
 label_studio/static/webfonts/fa-solid-900.ttf
 label_studio/static/webfonts/fa-solid-900.woff
 label_studio/static/webfonts/fa-solid-900.woff2
+label_studio/templates/admin.html
 label_studio/templates/base.html
 label_studio/templates/dashboard.html
 label_studio/templates/export.html
@@ -111,6 +115,7 @@ label_studio/templates/login.html
 label_studio/templates/render_ls.html
 label_studio/templates/setup.html
 label_studio/templates/setup_help.html
+label_studio/templates/signup.html
 label_studio/templates/tasks.html
 label_studio/templates/welcome.html
 label_studio/utils/__init__.py

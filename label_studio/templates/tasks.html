@@ -46,7 +46,7 @@
         <tr>
           <th>Task ID</th>
           <th>Completed at</th>
-          <th>Completion</th>
+          <!-- <th>Completion</th> -->
           <th>User</th>
         </tr>
 
@@ -60,11 +60,11 @@
               {{ id }}
             </td>
             <td>{{ completed_at[id] }}</td>
-            <td class="text-center">
+            <!-- <td class="text-center">
               {% if id in completions %}
                 <i data-task-id="{{ id }}" class="fas fa-trash-alt trash remove-completion"></i>
               {% endif %}
-            </td>
+            </td> -->
             <td>{{user_complete[id]}}</td>
 
           </tr>

@@ -21,7 +21,7 @@ from label_studio.utils.io import find_file, delete_dir_content
 
 
 logger = logging.getLogger(__name__)
-
+result_ds = {}
 
 class Project(object):
 
@@ -32,7 +32,6 @@ class Project(object):
         'Image': ('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'),
         'Audio': ('.wav', '.aiff', '.mp3', '.au', '.flac')
     }
-
     def __init__(self, config, name, context=None):
         self.config = config
         self.name = name
@@ -135,17 +134,16 @@ class Project(object):
         :param completion:
         :return:
         """
-        print("***********updating output schema!!!!******")
-        print(completion['result'])
-        print(completion['user'])
         for result in completion['result']:
             self.derived_output_schema['from_name_to_name_type'].add((
-                result['from_name'], result['to_name'], result['type'],completion['user']
+                result['from_name'], result['to_name'], result['type']#,completion['user']
             ))
             for label in result['value'][result['type']]:
                 self.derived_output_schema['labels'][result['from_name']].add(label)
-            self.derived_output_schema['labels']['user'] = completion['user']
         print(self.derived_output_schema)
+
+    def get_result_ds(self):
+        return self.result_ds
 
     def validate_label_config_on_derived_input_schema(self, config_string_or_parsed_config):
         """
@@ -400,11 +398,11 @@ class Project(object):
         all_ids = self.get_completions_ids()
         for i in all_ids:
             data = self.get_task_with_completions(i)
-            print(data)
             if(data['completions'][0]['user']):
                 user_dict[i] = data['completions'][0]['user']
             else:
                 user_dict[i] = ''
+        return user_dict
         
 
 
