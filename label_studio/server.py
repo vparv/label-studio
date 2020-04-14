@@ -50,6 +50,9 @@ from flaskext.mysql import MySQL
 import sqlite3
 from flask import g
 
+#Global arguments
+task_queue = []
+param = 3
 
 
 
@@ -251,11 +254,14 @@ def labeling_page():
     upper_bound = num_tasks
 
     if(current_user.role == "worker"):
-        cur_id = current_user.worker_id
-        lower_bound = cur_id*num_each + 1
-        upper_bound = cur_id*num_each+num_each
-        if num_tasks - upper_bound < num_workers:
-            upper_bound = num_tasks
+        cur_id = current_user.id
+        #lower_bound = cur_id*num_each
+        #upper_bound = cur_id*num_each+num_each
+        #if num_tasks - upper_bound < num_workers:
+            #upper_bound = num_tasks
+        if(len(task_queue) != 0):
+            lower_bound = task_queue[cur_id % len(task_queue)][0]
+            upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
 
     if task_id is not None:
         task_data = project.get_task_with_completions(task_id) or project.get_task(task_id)
@@ -317,14 +323,18 @@ def tasks_page():
     lower_bound = 0
     upper_bound = num_tasks
 
-    
+
+
 
     if(current_user.role == "worker"):
-        cur_id = current_user.worker_id
-        lower_bound = cur_id*num_each + 1
-        upper_bound = cur_id*num_each+num_each
-        if num_tasks - upper_bound < num_workers:
-            upper_bound = num_tasks
+        cur_id = current_user.id
+        #lower_bound = cur_id*num_each
+        #upper_bound = cur_id*num_each+num_each
+        #if num_tasks - upper_bound < num_workers:
+            #upper_bound = num_tasks
+        if(len(task_queue) != 0):
+            lower_bound = task_queue[cur_id % len(task_queue)][0]
+            upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
         task_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , task_ids))
 
     all_complete = project.get_completions_ids()
@@ -343,7 +353,8 @@ def tasks_page():
         completions=filtered_complete,
         completed_at=completed_at,
         user_complete=user_complete,
-        role=current_user.role
+        role=current_user.role,
+        completed=True #update!
     )
 
 
@@ -379,6 +390,8 @@ def import_page():
 
     project.analytics.send(getframeinfo(currentframe()).function)
 
+    task_queue = []
+
     return flask.render_template(
         'import.html',
         config=project.config,
@@ -402,6 +415,18 @@ def export_page():
         role=current_user.role
     )
 
+# @app.route('/sendinfo',methods=['GET'])
+# def login():
+#     return flask.render_template('tasks.html')
+
+# @app.route('/sendinfo',methods=['POST'])
+# def sendinfo():
+#     print("SEND INFO CALLED!")
+#     m_id = request.form.get('m_id')
+#     get_db().get_db().execute('update num_completed SET MTURKID = :id where user = :u', {'u':cur_user.name, 'id':m_id})
+#     get_db().commit()
+
+
 @app.route('/admin')
 @login_required(role = "admin")
 def admin_panel():
@@ -410,7 +435,7 @@ def admin_panel():
     #worker_num_tasks = list(get_db().execute('select num as c from num_completed'))
     worker_info = []
     for i in range(0,len(worker_names)):
-        worker_info.append([worker_names[i][0],worker_names[i][1]])
+        worker_info.append([worker_names[i][0],worker_names[i][1],worker_names[i][2]])
 
 
     return flask.render_template(
@@ -618,6 +643,28 @@ def api_import():
     project.reload()
 
     duration = time.time() - start
+
+    #add to tasks queues
+    num_tasks = len(new_tasks)
+    temp = []
+    a = 1
+    while a < num_tasks:
+        for b in range(a,a+param):
+            temp.append(b)
+
+        a = a + param
+        if num_tasks - a < param:
+            # add all the rest
+            while(a <= num_tasks):
+                temp.append(a)
+                a = a + 1;
+
+        task_queue.append(temp)
+        temp=[]
+
+    print("JUST MADE THE QUEUE!!!*********")
+    print(task_queue)
+
     return make_response(jsonify({
         'task_count': len(new_tasks),
         'completion_count': validator.completion_count,
@@ -662,12 +709,18 @@ def api_generate_next_task():
     lower_bound = 0
     upper_bound = num_tasks
 
+
+
+
     if(current_user.role == "worker"):
-        cur_id = current_user.worker_id
-        lower_bound = cur_id*num_each
-        upper_bound = cur_id*num_each+num_each
-        if num_tasks - upper_bound < num_workers:
-            upper_bound = num_tasks
+        cur_id = current_user.id
+        #lower_bound = cur_id*num_each
+        #upper_bound = cur_id*num_each+num_each
+        #if num_tasks - upper_bound < num_workers:
+            #upper_bound = num_tasks
+        if(len(task_queue) != 0):
+            lower_bound = task_queue[cur_id % len(task_queue)][0]
+            upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
 
     for task_id, task in project.iter_tasks():
         if task_id not in completions and task_id >= lower_bound and task_id <= upper_bound:
@@ -711,13 +764,16 @@ def api_all_task_ids():
     lower_bound = 0
     upper_bound = num_tasks
 
-    if(current_user.role == "worker"):
-        cur_id = current_user.worker_id
-        lower_bound = cur_id*num_each
-        upper_bound = cur_id*num_each+num_each
-        if num_tasks - upper_bound < num_workers:
-            upper_bound = num_tasks
 
+    if(current_user.role == "worker"):
+        cur_id = current_user.id
+        #lower_bound = cur_id*num_each
+        #upper_bound = cur_id*num_each+num_each
+        #if num_tasks - upper_bound < num_workers:
+            #upper_bound = num_tasks
+        if(len(task_queue) != 0):
+            lower_bound = task_queue[cur_id % len(task_queue)][0]
+            upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
     f_ids = list(filter(lambda func: func <= upper_bound and func >= lower_bound , ids))
 
     #
@@ -1023,7 +1079,7 @@ def main():
             threading.Timer(2.5, lambda: webbrowser.open(browser_url)).start()
             print('Start browser at URL: ' + browser_url)
 
-        app.run(host='0.0.0.0', port=input_args.port, debug=input_args.debug)
+        app.run(host='0.0.0.0', port=input_args.port, debug=input_args.debug) #, ssl_context='adhoc')
 
     # On `start-multi-session` command, server creates one project per each browser sessions
     elif input_args.command == 'start-multi-session':

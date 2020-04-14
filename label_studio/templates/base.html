@@ -32,7 +32,7 @@
 
 <!-- Header -->
 <div id="header">
-  <a id="logo" href="/welcome">
+  <a id="logo" href = "/">
     <img src="/static/images/ls_logo.png" alt="label studio logo" class="img-logo">
     <span class="img-text">{{ config['title'] }}</span>
   </a>
@@ -58,8 +58,7 @@
 
     <a href="/admin" class="{% if url_for(request.endpoint) == '/admin' %}active{% endif %}">Admin</a>
     <span class="delim">|</span>
-    {% endif %}
-
+    
     <a href="https://labelstud.io/guide/" target="_blank">Docs</a>
     <span class="delim">|</span>
 
@@ -70,7 +69,9 @@
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdLHZx5EeT1J350JPwnY2xLanfmvplJi6VZk65C2R4XSsRBHg/viewform?usp=sf_link"
        data-tooltip="If you have any troubles or suggestion just report us to Slack" data-position="bottom right"
        target="_blank"><img src="/static/images/slack.png" height="22"/></a>
+
     <span class="delim">|</span>
+    {% endif %}
     <a href="/logout">Logout</a>
     <span class="delim">|</span>
 

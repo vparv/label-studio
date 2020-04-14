@@ -7,7 +7,12 @@
 	<ul>
 		{% for i in worker_info%}
   		<li>{{i[0]}} : {{i[1]}}</li>
+  			{% if i[2] != "" %}
+  			<li>This user has completed tasks, their MTURK ID is : {{i[2]}}</li>
+ 			{% endif %} 			
   		{% endfor %}
 	</ul>
+	<br>
+	<br>
 
 {% endblock %}
