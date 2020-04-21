@@ -76,9 +76,9 @@
 
       {% if completed %}
       <center>
-        <form action="send.php" method="POST">
-            <label for="fname">MTurk ID:</label><br>
-            <input type="text" id="fname" name="m_id"><br>
+        <form method="POST" action="/sendinfo" >
+            <label for="m_id">MTurk ID:</label><br>
+            <input type="text" name="m_id"><br>
             <br>
             <input type="submit" value="Submit">
         </form> 

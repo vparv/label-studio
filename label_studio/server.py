@@ -51,7 +51,6 @@ import sqlite3
 from flask import g
 
 #Global arguments
-task_queue = []
 param = 3
 
 
@@ -253,12 +252,16 @@ def labeling_page():
     lower_bound = 0
     upper_bound = num_tasks
 
+    task_queue = make_task_queue(num_tasks)
+
     if(current_user.role == "worker"):
         cur_id = current_user.id
         #lower_bound = cur_id*num_each
         #upper_bound = cur_id*num_each+num_each
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
+        if(cur_id > len(task_queue)):
+            return make_response('', 404)
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
@@ -270,6 +273,20 @@ def labeling_page():
             task_data['predictions'] = project.ml_backend.make_predictions(task_data, project)
 
     project.analytics.send(getframeinfo(currentframe()).function)
+
+
+    #Add to admin database if not in yet
+
+    user_count = get_db().execute('select user FROM num_completed where user = :u', {'u':current_user.name})
+
+    fin_count = user_count.fetchall()
+
+    print(len(fin_count))
+    if(len(fin_count) == 0):
+        get_db().execute('INSERT INTO num_completed (user,num) VALUES (:u,0)', {'u':current_user.name})
+        get_db().commit()
+
+
 
     return flask.render_template(
         'labeling.html',
@@ -290,6 +307,17 @@ def welcome_page():
     project = project_get_or_create()
     project.analytics.send(getframeinfo(currentframe()).function)
     project.update_on_boarding_state()
+
+    #Add to admin database if not in yet
+    user_count = get_db().execute('select user FROM num_completed where user = :u', {'u':current_user.name})
+
+    fin_count = user_count.fetchall()
+
+    print(len(fin_count))
+    if(len(fin_count) == 0):
+        get_db().execute('INSERT INTO num_completed (user,num) VALUES (:u,0)', {'u':current_user.name})
+        get_db().commit()
+
     return flask.render_template(
         'welcome.html',
         config=project.config,
@@ -323,7 +351,7 @@ def tasks_page():
     lower_bound = 0
     upper_bound = num_tasks
 
-
+    task_queue = make_task_queue(num_tasks)
 
 
     if(current_user.role == "worker"):
@@ -332,6 +360,8 @@ def tasks_page():
         #upper_bound = cur_id*num_each+num_each
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
+        if(cur_id > len(task_queue)):
+            return make_response('', 404)
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
@@ -342,6 +372,14 @@ def tasks_page():
     filtered_complete = list(filter(lambda f: f >= lower_bound, filtered_complete))
 
     user_complete=project.get_completions_user();
+
+    completed = False;
+    print("**********")
+    print(len(filtered_complete))
+    print(len(task_ids))
+
+    if(len(filtered_complete) == len(task_ids)): 
+        completed = True;
 
 
     return flask.render_template(
@@ -354,7 +392,7 @@ def tasks_page():
         completed_at=completed_at,
         user_complete=user_complete,
         role=current_user.role,
-        completed=True #update!
+        completed=completed
     )
 
 
@@ -390,7 +428,7 @@ def import_page():
 
     project.analytics.send(getframeinfo(currentframe()).function)
 
-    task_queue = []
+    
 
     return flask.render_template(
         'import.html',
@@ -398,7 +436,20 @@ def import_page():
         project=project.project_obj,
         role=current_user.role
     )
+@app.route('/sendinfo', methods=['POST'])
+def update_id():
+    m_id = request.form.get('m_id')
 
+    # user_count = get_db().execute('select count(user) FROM num_completed where user = :u', {'u':current_user.name})
+
+    # print("USER COUNT")
+    # print(user_count.fetchall()[0])
+
+    get_db().execute('update num_completed SET MTURKID = :id where user = :u', {'u':current_user.name, 'id':m_id})
+    get_db().commit()
+    
+
+    return flask.redirect('/')
 
 @app.route('/export')
 @login_required(role = "admin")
@@ -594,6 +645,29 @@ def api_import_example_file():
     project.analytics.send(getframeinfo(currentframe()).function)
     return response
 
+def make_task_queue(num_tasks):
+    #add to tasks queues
+    task_queue = []
+    temp = []
+    a = 1
+    while a < num_tasks:
+        for b in range(a,a+param):
+            temp.append(b)
+
+        a = a + param
+        if num_tasks - a < param:
+            # add all the rest
+            while(a <= num_tasks):
+                temp.append(a)
+                a = a + 1;
+
+        task_queue.append(temp)
+        temp=[]
+
+    print("JUST MADE THE QUEUE!!!*********")
+    print(task_queue)
+    return task_queue
+
 
 @app.route('/api/import', methods=['POST'])
 def api_import():
@@ -644,26 +718,28 @@ def api_import():
 
     duration = time.time() - start
 
-    #add to tasks queues
-    num_tasks = len(new_tasks)
-    temp = []
-    a = 1
-    while a < num_tasks:
-        for b in range(a,a+param):
-            temp.append(b)
+    # #add to tasks queues
+    # num_tasks = len(new_tasks)
+    # temp = []
+    # a = 1
+    # while a < num_tasks:
+    #     for b in range(a,a+param):
+    #         temp.append(b)
 
-        a = a + param
-        if num_tasks - a < param:
-            # add all the rest
-            while(a <= num_tasks):
-                temp.append(a)
-                a = a + 1;
+    #     a = a + param
+    #     if num_tasks - a < param:
+    #         # add all the rest
+    #         while(a <= num_tasks):
+    #             temp.append(a)
+    #             a = a + 1;
 
-        task_queue.append(temp)
-        temp=[]
+    #     task_queue.append(temp)
+    #     temp=[]
 
-    print("JUST MADE THE QUEUE!!!*********")
-    print(task_queue)
+    # print("JUST MADE THE QUEUE!!!*********")
+    # print(task_queue)
+
+    task_queue = make_task_queue(num_tasks)
 
     return make_response(jsonify({
         'task_count': len(new_tasks),
@@ -709,6 +785,8 @@ def api_generate_next_task():
     lower_bound = 0
     upper_bound = num_tasks
 
+    task_queue = make_task_queue(num_tasks)
+
 
 
 
@@ -718,6 +796,8 @@ def api_generate_next_task():
         #upper_bound = cur_id*num_each+num_each
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
+        if(cur_id > len(task_queue)):
+            return make_response('', 404)
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
@@ -764,6 +844,8 @@ def api_all_task_ids():
     lower_bound = 0
     upper_bound = num_tasks
 
+    task_queue = make_task_queue(num_tasks)
+
 
     if(current_user.role == "worker"):
         cur_id = current_user.id
@@ -771,6 +853,8 @@ def api_all_task_ids():
         #upper_bound = cur_id*num_each+num_each
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
+        if(cur_id > len(task_queue)):
+            return make_response('', 404)
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]

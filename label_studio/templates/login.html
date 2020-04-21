@@ -10,6 +10,11 @@
     <!-- Bulma Version 0.8.x-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />
     <link rel="stylesheet" type="text/css" href="../css/login.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body style="background-color:gray">
 <div class="column is-4 is-offset-4">
@@ -17,30 +22,11 @@
     <hr class="login-hr">
     <p class="subtitle has-text-black">Please login to proceed.</p></center>
     <div class="box" style="background-color:white">
-        <form method="POST" action="/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
-                </div>
-            </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox">
-                    Remember me
-                </label>
-            </div>
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
-        </form>
         <center>
-        <p class="has-text-grey">
-            <a href="/signup">Sign Up</a>
-        </p>
+        <a href="/adminlogin" class="btn btn-primary">Login as Admin</a>
+        <br>
+        <br>
+        <a href="/signup" class="btn btn-primary">Login as Worker</a>
     </center>   
     </div>
      

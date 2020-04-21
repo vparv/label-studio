@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 8001,
+            "lead_time": 2.395,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "7920Lfqdnc",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Providing Service/Feature",
+                            "Service Operation and Security"
+                        ]
+                    }
+                }
+            ],
+            "user": "d"
+        }
+    ],
+    "data": {
+        "reviewText": "We share your information with other Match Group companies <b>to benefit you in two respects: for other Match Group companies to assist us in processing your information, as service providers, upon our instructions and on our behalf</b>."
+    },
+    "id": 8,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

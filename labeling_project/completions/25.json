@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 25001,
+            "lead_time": 4.024,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "M-iSciWtIl",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Analytics and Research",
+                            "Legal Requirement"
+                        ]
+                    }
+                }
+            ],
+            "user": "toszrlic"
+        }
+    ],
+    "data": {
+        "reviewText": "We use the information we collect about you and your activity on our services <b>to personalize the services we offer</b>."
+    },
+    "id": 25,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 30001,
+            "lead_time": 2.304,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "z3lEnPxB-X",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Analytics and Research",
+                            "Legal Requirement"
+                        ]
+                    }
+                }
+            ],
+            "user": "tpoxkijg"
+        }
+    ],
+    "data": {
+        "reviewText": "If we know you\u2019re working with a particular real estate agent, we may share information about your saved homes and searches with that agent <b>to let them serve you more effectively</b>."
+    },
+    "id": 30,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

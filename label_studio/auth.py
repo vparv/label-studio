@@ -6,6 +6,15 @@ from models import db
 from flask_login import login_user, logout_user, login_required
 from label_studio.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
+import random
+import string
+
+
+
+
+def randomString(stringLength=8):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
 
 
 auth = Blueprint('auth', __name__)
@@ -32,15 +41,37 @@ def login_post():
     login_user(user, remember=remember)
     return flask.redirect('/')
 
-@auth.route('/signup')
-def signup():
-    return render_template('signup.html')
+@auth.route('/adminlogin',methods=['GET'])
+def admin_login():
+    return render_template('adminlogin.html')
 
-@auth.route('/signup', methods=['POST'])
-def signup_post():
+@auth.route('/adminlogin', methods=['POST'])
+def admin_login_post():
     email = request.form.get('email')
-    name = request.form.get('name')
     password = request.form.get('password')
+    remember = True if request.form.get('remember') else False
+
+    user = User.query.filter_by(email=email).first()
+
+    # check if user actually exists
+    # take the user supplied password, hash it, and compare it to the hashed password in database
+    if not user or not check_password_hash(user.password, password): 
+        flash('Please check your login details and try again.')
+        return flask.render_template('login.html') # if user doesn't exist or password is wrong, reload the page
+
+    # if the above check passes, then we know the user has the right credentials
+    login_user(user, remember=remember)
+    return flask.redirect('/')
+
+# @auth.route('/signup')
+# def signup():
+#     return render_template('signup.html')
+
+@auth.route('/signup')
+def signup_post():
+    email = randomString(8)
+    name = randomString(8)
+    password = randomString(8)
     role = "worker"
 
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
@@ -55,7 +86,8 @@ def signup_post():
     db.session.add(new_user)
     db.session.commit()
 
-    return flask.render_template('login.html')
+    login_user(new_user, remember=False)
+    return flask.redirect('/')
 
 @auth.route('/logout')
 @login_required

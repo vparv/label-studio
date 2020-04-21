@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 6001,
+            "lead_time": 3.536,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "ad9CIxok-P",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Providing Service/Feature",
+                            "Service Operation and Security"
+                        ]
+                    }
+                }
+            ],
+            "user": "c"
+        }
+    ],
+    "data": {
+        "reviewText": "Some of the information we collect from your device (e.g., IP address) can sometimes be used <b>to approximate your device\u2019s location</b>."
+    },
+    "id": 6,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

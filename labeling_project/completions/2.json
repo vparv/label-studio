@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 2001,
+            "lead_time": 2.845,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "CxUOh2oPr2",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Legal Requirement",
+                            "Merger/Acquisition"
+                        ]
+                    }
+                }
+            ],
+            "user": "iuheklxx"
+        }
+    ],
+    "data": {
+        "reviewText": "We primarily use the information we collect <b>to provide, administer, operate and improve our Services</b>."
+    },
+    "id": 2,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

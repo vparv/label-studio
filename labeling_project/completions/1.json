@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 1001,
+            "lead_time": 2.496,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "g7j0n2soTq",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Service Operation and Security",
+                            "Analytics and Research"
+                        ]
+                    }
+                }
+            ],
+            "user": "iuheklxx"
+        }
+    ],
+    "data": {
+        "reviewText": "The main reason we use your information is <b>to deliver and improve our services</b>."
+    },
+    "id": 1,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

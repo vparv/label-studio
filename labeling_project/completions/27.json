@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 27001,
+            "lead_time": 3.468,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "5AtIhO0x2z",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Service Operation and Security",
+                            "Analytics and Research"
+                        ]
+                    }
+                }
+            ],
+            "user": "toszrlic"
+        }
+    ],
+    "data": {
+        "reviewText": "We collect and use your personal information <b>to comply with laws</b>."
+    },
+    "id": 27,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

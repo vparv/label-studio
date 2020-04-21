@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 3001,
+            "lead_time": 2.112,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "Qv13KtXRkS",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Legal Requirement",
+                            "Merger/Acquisition"
+                        ]
+                    }
+                }
+            ],
+            "user": "iuheklxx"
+        }
+    ],
+    "data": {
+        "reviewText": "When you choose to use these features, we collect information from you <b>to process your transaction</b>."
+    },
+    "id": 3,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}

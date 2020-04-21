@@ -1,0 +1,29 @@
+{
+    "completions": [
+        {
+            "id": 29001,
+            "lead_time": 2.059,
+            "result": [
+                {
+                    "from_name": "sentiment",
+                    "id": "x6-rKF5H-H",
+                    "to_name": "text",
+                    "type": "choices",
+                    "value": {
+                        "choices": [
+                            "Legal Requirement",
+                            "Merger/Acquisition"
+                        ]
+                    }
+                }
+            ],
+            "user": "tpoxkijg"
+        }
+    ],
+    "data": {
+        "reviewText": "In order <b>to improve your chances at building significant connections with others#, we may make you visible on other Match Group services or allow you #to benefit from cross-platform functionalities</b>."
+    },
+    "id": 29,
+    "predictions": [],
+    "task_path": "/Users/mayakhanna/Desktop/research/label-studio/labeling_project/tasks.json"
+}
