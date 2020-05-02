@@ -256,12 +256,8 @@ def labeling_page():
 
     if(current_user.role == "worker"):
         cur_id = current_user.id
-        #lower_bound = cur_id*num_each
-        #upper_bound = cur_id*num_each+num_each
-        #if num_tasks - upper_bound < num_workers:
-            #upper_bound = num_tasks
         if(cur_id > len(task_queue)):
-            return make_response('', 404)
+            return flask.render_template('closed.html')
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
@@ -361,7 +357,7 @@ def tasks_page():
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
         if(cur_id > len(task_queue)):
-            return make_response('', 404)
+            return flask.render_template('closed.html')
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
@@ -663,9 +659,6 @@ def make_task_queue(num_tasks):
 
         task_queue.append(temp)
         temp=[]
-
-    print("JUST MADE THE QUEUE!!!*********")
-    print(task_queue)
     return task_queue
 
 
@@ -788,16 +781,10 @@ def api_generate_next_task():
     task_queue = make_task_queue(num_tasks)
 
 
-
-
     if(current_user.role == "worker"):
         cur_id = current_user.id
-        #lower_bound = cur_id*num_each
-        #upper_bound = cur_id*num_each+num_each
-        #if num_tasks - upper_bound < num_workers:
-            #upper_bound = num_tasks
         if(cur_id > len(task_queue)):
-            return make_response('', 404)
+            return flask.render_template('closed.html')
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
@@ -854,7 +841,7 @@ def api_all_task_ids():
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
         if(cur_id > len(task_queue)):
-            return make_response('', 404)
+            return flask.render_template('closed.html')
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]

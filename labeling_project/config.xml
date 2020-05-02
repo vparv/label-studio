@@ -1,10 +1,9 @@
-
 <View>
   <HyperText name="text" value="$reviewText"/>
   <View style="box-shadow: 2px 2px 5px #999;
                margin-top: 2em;
                border-radius: 5px;">
-    <Header value="Choose all purpose categories for the text between the two # signs:"/>
+    <Header value="Choose all purpose categories for the bolded text:"/>
     <Choices name="sentiment" toName="text"
              choice="multiple" showInLine="false">
       <Choice value="Providing Service/Feature"/>
