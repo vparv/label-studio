@@ -28,7 +28,6 @@ label_studio/examples/text_named_entity/config.xml
 label_studio/examples/text_pairwise/config.xml
 label_studio/examples/text_references/config.xml
 label_studio/examples/text_sentiment/config.xml
-label_studio/static/.DS_Store
 label_studio/static/favicon.ico
 label_studio/static/css/codemirror.css
 label_studio/static/css/fontall.min.css
@@ -104,9 +103,12 @@ label_studio/static/webfonts/fa-solid-900.ttf
 label_studio/static/webfonts/fa-solid-900.woff
 label_studio/static/webfonts/fa-solid-900.woff2
 label_studio/templates/admin.html
+label_studio/templates/adminlogin.html
 label_studio/templates/base.html
+label_studio/templates/closed.html
 label_studio/templates/dashboard.html
 label_studio/templates/export.html
+label_studio/templates/genlogin.html
 label_studio/templates/home.html
 label_studio/templates/import.html
 label_studio/templates/import_help.html

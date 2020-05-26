@@ -3,15 +3,28 @@
   <View style="box-shadow: 2px 2px 5px #999;
                margin-top: 2em;
                border-radius: 5px;">
-    <Header value="Choose all purpose categories for the bolded text:"/>
+    <Header value="Please select high-level and low-level classes (multiple choice) for the bold text in the displayed sentence"/>
     <Choices name="sentiment" toName="text"
              choice="multiple" showInLine="false">
-      <Choice value="Providing Service/Feature"/>
-      <Choice value="Service Operation and Security"/>
-      <Choice value="Analytics and Research"/>
-      <Choice value="Legal Requirement"/>
-      <Choice value="Merger/Acquisition"/>
+      <Choice value="Providing Services"/>
+      <Choice value = " - Nearby Search"/>
+      <Choice value = " - Map and Navigation"/>
+      <Choice value = " - Other Purposes"/>
+      <Choice value = "Analytics"/>
+      <Choice value = " - Position tracking for analytics"/>
+      <Choice value = " - Other Purposes"/>
+      <Choice value = "Personalization"/>
+      <Choice value = " - Interface customization (e.g., screen size)"/>
+      <Choice value = " - Other Purposes"/>
       <Choice value="Advertisement"/>
+      <Choice value = " - Position tracking for advertisements"/>
+      <Choice value = " - Other Purposes"/>
+      <Choice value="Authentication and Security"/>
+      <Choice value="Service Operation"/>
+      <Choice value = " - Payment"/>
+      <Choice value = " - Other Purposes"/>
+      <Choice value="Law Requirement, Mergers, and Acquisition"/>
+      <Choice value="Other Purposes"/>
     </Choices>
   </View>
-</View> 
+</View>

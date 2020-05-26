@@ -35,13 +35,13 @@ from label_studio.project import Project
 from functools import wraps
 from werkzeug.exceptions import HTTPException
 from dotenv import load_dotenv, find_dotenv
-from authlib.flask.client import OAuth
+from authlib.integrations.flask_client import OAuth
 from six.moves.urllib.parse import urlencode
 
 from flask_login import login_required, current_user
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager 
+from flask_login import LoginManager
 
 from label_studio.models import User
 from models import db
@@ -51,7 +51,7 @@ import sqlite3
 from flask import g
 
 #Global arguments
-param = 3
+param = 20
 
 
 
@@ -107,7 +107,7 @@ def load_user(user_id):
 
 # @app.before_first_request
 # def create_tables():
-#   db.create_all()  
+#   db.create_all()
 
 from label_studio.auth import auth as auth_blueprint
 app.register_blueprint(auth_blueprint)
@@ -374,7 +374,7 @@ def tasks_page():
     print(len(filtered_complete))
     print(len(task_ids))
 
-    if(len(filtered_complete) == len(task_ids)): 
+    if(len(filtered_complete) == len(task_ids)):
         completed = True;
 
 
@@ -424,7 +424,7 @@ def import_page():
 
     project.analytics.send(getframeinfo(currentframe()).function)
 
-    
+
 
     return flask.render_template(
         'import.html',
@@ -443,7 +443,7 @@ def update_id():
 
     get_db().execute('update num_completed SET MTURKID = :id where user = :u', {'u':current_user.name, 'id':m_id})
     get_db().commit()
-    
+
 
     return flask.redirect('/')
 
@@ -489,7 +489,7 @@ def admin_panel():
         'admin.html',
         num_workers= num - 1,
         worker_info = worker_info,
-        role=current_user.role)    
+        role=current_user.role)
 
 
 @app.route('/api/render-label-studio', methods=['GET', 'POST'])
@@ -932,7 +932,7 @@ def api_completion_by_id(task_id, completion_id):
             project.analytics.send(getframeinfo(currentframe()).function)
             #Delete task completion
             cur_user= User.query.filter_by(email=current_user.email).first()
-            
+
             get_db().execute('update num_completed SET num = :num - 1 where user = :u', {'u':cur_user.name})
             get_db().commit()
             return make_response('deleted', 204)
