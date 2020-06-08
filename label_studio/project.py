@@ -253,6 +253,7 @@ class Project(object):
             if isinstance(json_body, list):
                 for data in json_body:
                     push_task(data)
+                    push_task(data)
 
             # one task in file
             elif isinstance(json_body, dict):
