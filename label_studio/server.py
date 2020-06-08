@@ -359,8 +359,8 @@ def tasks_page():
         #upper_bound = cur_id*num_each+num_each
         #if num_tasks - upper_bound < num_workers:
             #upper_bound = num_tasks
-        #if(cur_id > len(task_queue)):
-        #    return flask.render_template('closed.html')
+        if(cur_id > len(task_queue)):
+            return flask.render_template('closed.html')
         if(len(task_queue) != 0):
             lower_bound = task_queue[cur_id % len(task_queue)][0]
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
