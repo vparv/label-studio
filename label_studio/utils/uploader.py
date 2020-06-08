@@ -34,9 +34,7 @@ def tasks_from_file(filename, file):
             tasks = [{'data': task} for task in tasks]
         elif filename.endswith('.txt'):
             lines = file.read().splitlines()
-            for line in lines:
-                tasks = {'data': {settings.UPLOAD_DATA_UNDEFINED_NAME: line.decode('utf-8')}}
-                tasks = {'data': {settings.UPLOAD_DATA_UNDEFINED_NAME: line.decode('utf-8')}}
+            tasks = [{'data': {settings.UPLOAD_DATA_UNDEFINED_NAME: line.decode('utf-8')}} for line in lines]
         elif filename.endswith('.json'):
             tasks = json.load(file)  # try simple json
         else:
