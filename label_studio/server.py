@@ -51,7 +51,7 @@ import sqlite3
 from flask import g
 
 #Global arguments
-param = 20
+param = 3
 
 
 
