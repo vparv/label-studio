@@ -301,10 +301,9 @@ class Project(object):
                     data_key = self._get_single_input_value(input_data_tags)
                 with io.open(path) as fin:
                     for line in fin:
-                        task_id = len(self.tasks) + 1
+                        task_id = len(self.tasks) * 3
                         self.tasks[task_id] = {'id': task_id, 'task_path': path, 'data': {data_key: line.strip()}}
-                        task_id = len(self.tasks) + 1
-                        self.tasks[task_id] = {'id': task_id, 'task_path': path, 'data': {data_key: line.strip()}}
+                        
 
             # load tasks from files: creating URI to local resources
             elif self.is_image_annotation(input_data_tags, f) or self.is_audio_annotation(input_data_tags, f):
