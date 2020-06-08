@@ -1,7 +1,287 @@
 [
-  {
-        "data": {
-            "reviewText": "The main reason we use your information is <b>to deliver and improve our services</b>."
+    {
+        "data":{
+            "reviewText":"The main reason we use your information is <b>to deliver and improve our services<\/b>."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the personal information we obtain <b> to provide and enhance our Services , such as registering you or your device for a Service , identifying and authenticating you so you may use and interact with third - party services , and improving and customizing your experience within the Services <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the personal information we obtain <b> to communicate with you <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the personal information we obtain <b> to provide customer support <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the personal information we obtain <b> to operate , evaluate and improve our business , including developing new products and services , managing our communications , analyzing our Services and customer base , conducting market research , aggregating and anonymizing data , performing data analytics , and undertaking accounting , auditing and other internal functions <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the personal information we obtain <b> to protect against , identify and prevent fraud and other criminal activity , claims and other liabilities <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the personal information we obtain <b> to comply with and enforce applicable legal requirements , relevant industry standards and our policies , including this Privacy Policy and the applicable Terms of Use for a Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may combine information we obtain about you <b> for the purposes described above <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We also may use the information we obtain <b> in other ways for which we provide specific notice at the time of collection or otherwise with your consent <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to provide you with the Services , such as to respond to your requests , questions and instructions made through the Voice Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to identify and authenticate you so you may use certain Voice Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to improve and customize your experience with the Voice Service , such as delivering content and responses tailored to our users and the manner in which they interact with the Voice Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"With your separate consent , we may use the information we obtain through the Voice Service <b> to communicate with you about our products and services , and provide you with notifications , content , alerts , offers , promotions , marketing information , communications and advertisements <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to respond to your requests and inquiries <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to operate , evaluate and improve our business ( including developing new products ; enhancing and improving our products and the services ; managing our communications ; analyzing our products , customer base and the services ; conducting market research ; performing data analytics ; and performing accounting , auditing and other internal functions ) <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to allow you to interact with and use certain third - party apps and services <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to protect against , identify and prevent fraud and other criminal activity , claims and other liabilities <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the Voice Service <b> to comply with and enforce applicable legal requirements , relevant industry standards and our policies , including this Privacy Notice , the Samsung Account Privacy Policy <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the IBA Service <b> to provide you with the IBA Service on your Smart TV and across your devices <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the IBA Service <b> to improve and customize your experience with the IBA Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"With your separate consent , we may use the information we obtain through the IBA Service <b> to communicate with you via email and push notification about products and services offered by Samsung and third parties that are tailored to your interests <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the IBA Service <b> to respond to your requests and enquiries <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the IBA Service <b> to operate , evaluate , and improve our business ( including developing new products ; enhancing and improving our products and the services ; managing our communications ; analyzing our products , customer base and services ; conducting market research ; performing data analytics ; and performing accounting , auditing and other internal functions ) <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the IBA Service <b> to protect against , identify , and prevent fraud and other criminal activity , claims , and other liabilities <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may use the information we obtain through the IBA Service <b> to comply with and enforce applicable legal requirements , relevant industry standards , and our policies , including this Privacy Notice and the Samsung Privacy Policy <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To deliver and provide our Products and Service , including our voice recognition services <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To establish and manage your account <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To identify you and allow you to access the Service or limited - entry areas of the Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To complete a transaction or service requested by you <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To provide you with a user - friendly navigation experience <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To alert you of special offers , updated information , other new products or services , or to send other promotional materials to you <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To help ensure the Service is relevant to your needs , customize your experience with the Service , and help us create and publish content most relevant to you <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To facilitate services offered by third parties , such as the Amazon Dash Replacement Service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To operate , evaluate and improve our business ( including developing new products and services ; enhancing and improving our Products and Service ; analyzing and reviewing our user base and Products and Service , performing data analytics and market research , and performing accounting , auditing and other internal functions ) <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> For internal record keeping purposes <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> For customer service purposes <\/b> , such as <b> to provide you with prompt consultation and repair services , preventative diagnostic and maintenance services including in - app maintenance alerts , and to provide you with information about replacement of spare parts , including links to purchase specific spare parts based on your needs <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To provide energy consumption management services if you agree to participate in the demand response service <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To respond to your comments and inquiries <\/b> , such as when you use the “ Contact Us ” feature , upload a picture of your device , or submit an inquiry through other channels ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To communicate with you about changes to our Privacy Policy or the Terms of Use of the Service <\/b> , if necessary ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To protect against , identify and prevent fraud and other criminal activity , claims and other liabilities <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use your information that is collected through the Service primarily for the following purposes : <b> To comply with applicable legal requirements and protect and defend our rights and property , including by way of legal proceedings and to comply with regulatory requirements and company policies <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We may also combine information obtained from your Services , including personal information , with information that you provide to us by other means , <b> for the purposes consistent with this Privacy Policy <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We also may receive your information , including your email , from third - party social networking services ( e.g. Google , Facebook ) when you choose to connect our Services with those social networking services ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have <b> to deliver our Products , including to personalize features and content ( including your News Feed , Instagram Feed , Instagram Stories and ads ) and make suggestions for you ( such as groups or events you may be interested in or topics you may want to follow ) on and off our Products <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"<b> To create personalized Products that are unique and relevant to you <\/b> , we use your connections , preferences , interests and activities based on the data we collect and learn from you and others ( including any data with special protections you choose to provide ) ; how you use and interact with our Products ; and the people , places , or things you 're connected to and interested in on and off our Products ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We connect information about your activities on different Facebook Products and devices <b> to provide a more tailored and consistent experience on all Facebook Products you use <\/b> , wherever you use them ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use location - related information - such as your current location , where you live , the places you like to go , and the businesses and people you 're near - <b> to provide , personalize and improve our Products , including ads , for you and others <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have <b> to develop , test and improve our Products , including by conducting surveys and research , and testing and troubleshooting new products and features <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"If you have it turned on , we use face recognition technology <b> to recognize you in photos , videos and camera experiences <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have about you - including information about your interests , actions and connections - <b> to select and personalize ads , offers and other sponsored content that we show you <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have ( including your activity off our Products , such as the websites you visit and ads you see ) <b> to help advertisers and other partners measure the effectiveness and distribution of their ads and services , and understand the types of people who use their services and how people interact with their websites , apps , and services <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have <b> to verify accounts and activity , combat harmful conduct , detect and prevent spam and other bad experiences , maintain the integrity of our Products , and promote safety and security on and off of Facebook Products <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"For example , we use data we have <b> to investigate suspicious activity or violations of our terms or policies , or to detect when someone needs help <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have <b> to send you marketing communications , communicate with you about our Products , and let you know about our policies and terms <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We also use your information <b> to respond to you when you contact us <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"We use the information we have ( including from research partners we collaborate with ) <b> to conduct and support research and innovation on topics of general social welfare , technological advancement , public interest , health and well - being <\/b> ."
+        }
+    },
+    {
+        "data":{
+            "reviewText":"For example , we analyze information we have about migration patterns during crises <b> to aid relief efforts <\/b> ."
         }
     }
 ]
