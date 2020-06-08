@@ -263,6 +263,7 @@ class Project(object):
                 raise Exception('Unsupported task data:', path)
 
     def _init(self):
+        print("Init")
         label_config = LabelConfigParser(self.config['label_config'])
 
         if not os.path.exists(self.config['output_dir']):
