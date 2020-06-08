@@ -251,7 +251,8 @@ class Project(object):
 
             # multiple tasks in file
             if isinstance(json_body, list):
-                [push_task(data) for data in json_body]
+                for data in json_body:
+                    push_task(data)
 
             # one task in file
             elif isinstance(json_body, dict):
@@ -403,7 +404,7 @@ class Project(object):
             else:
                 user_dict[i] = ''
         return user_dict
-        
+
 
 
 
@@ -470,7 +471,7 @@ class Project(object):
         if not updated:
             completion['id'] = task['id'] * 1000 + len(task['completions']) + 1
             completion['user'] = user_id
-            task['completions'].append(completion)  
+            task['completions'].append(completion)
 
 
         self._update_derived_output_schema(completion)
