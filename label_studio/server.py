@@ -256,6 +256,9 @@ def labeling_page():
 
     if(current_user.role == "worker"):
         cur_id = current_user.id
+        print(cur_id)
+        print(" ")
+        print(len(task_queue))
         if(cur_id > len(task_queue)):
             return flask.render_template('closed.html')
         if(len(task_queue) != 0):
