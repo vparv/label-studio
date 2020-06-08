@@ -251,9 +251,7 @@ class Project(object):
 
             # multiple tasks in file
             if isinstance(json_body, list):
-                for data in json_body:
-                    push_task(data)
-                    push_task(data)
+                [push_task(data) for data in json_body]
 
             # one task in file
             elif isinstance(json_body, dict):
