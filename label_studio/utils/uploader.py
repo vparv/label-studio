@@ -33,6 +33,7 @@ def tasks_from_file(filename, file):
             tasks = pd.read_csv(file, sep='\t').fillna('').to_dict('records')
             tasks = [{'data': task} for task in tasks]
         elif filename.endswith('.txt'):
+            print("Uploader.py here")
             lines = file.read().splitlines()
             tasks = [{'data': {settings.UPLOAD_DATA_UNDEFINED_NAME: line.decode('utf-8')}} for line in lines]
         elif filename.endswith('.json'):

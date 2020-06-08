@@ -251,6 +251,7 @@ class Project(object):
 
             # multiple tasks in file
             if isinstance(json_body, list):
+                print("reading tasks from JSON file")
                 [push_task(data) for data in json_body]
 
             # one task in file
@@ -302,7 +303,8 @@ class Project(object):
                     data_key = self._get_single_input_value(input_data_tags)
                 with io.open(path) as fin:
                     for line in fin:
-                        task_id = len(self.tasks) * 3
+                        print("is text annotation")
+                        task_id = len(self.tasks) + 1
                         self.tasks[task_id] = {'id': task_id, 'task_path': path, 'data': {data_key: line.strip()}}
 
 
