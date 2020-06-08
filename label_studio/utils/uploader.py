@@ -37,6 +37,7 @@ def tasks_from_file(filename, file):
             lines = file.read().splitlines()
             tasks = [{'data': {settings.UPLOAD_DATA_UNDEFINED_NAME: line.decode('utf-8')}} for line in lines]
         elif filename.endswith('.json'):
+            print("Uploader.py json here")
             tasks = json.load(file)  # try simple json
         else:
             raise ValueError('Unsupported input file format')

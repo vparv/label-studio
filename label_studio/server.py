@@ -122,6 +122,7 @@ def project_get_or_create(multi_session_force_recreate=False):
     - "session": project is based on "project_name" key restored from flask.session object
     :return:
     """
+    print("Project get or create")
     if input_args.command == 'start-multi-session':
         # get user from session
         if 'user' not in session:

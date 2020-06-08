@@ -237,6 +237,7 @@ class Project(object):
         """
         def push_task(root):
             task_id = len(self.tasks) + 1
+            print("push task")
             data = root['data'] if 'data' in root else root
             self.tasks[task_id] = {'id': task_id, 'task_path': path, 'data': data}
             if 'predictions' in data:
