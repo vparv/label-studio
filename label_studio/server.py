@@ -726,19 +726,20 @@ def api_import():
                 #print(startingindex)
                 if (j+startingindex < len(temp)):
                     tasks.append(temp[j+startingindex])
-                    print(j+startingindex)
+                    #print(j+startingindex)
+                    print(temp[j+startingindex])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             if (len(tasks) % (numcomps*param) == 0):
                 startingindex = startingindex + numcomps
 
-        print(tasks[0])
-        print(tasks[1])
-        print(tasks[2])
-        print(tasks[3])
-        print(tasks[4])
-        print(tasks[5])
+    #    print(tasks[0])
+        #print(tasks[1])
+        #print(tasks[2])
+    #    print(tasks[3])
+    #    print(tasks[4])
+    #    print(tasks[5])
 
 
 
