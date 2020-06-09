@@ -720,7 +720,7 @@ def api_import():
         tasks[:] = []
         numcomps = 3
         startingindex = 0
-        count = []*len(temp)
+        count = [0]*len(temp)
         for i in range(0, len(temp)):
             for j in range(0, param):
                 #print(startingindex)
