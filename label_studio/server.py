@@ -716,6 +716,7 @@ def api_import():
         print(temp[2])
         print(temp[len(temp)-1])
         tasks.clear
+        tasks[:] = []
         for i in range(0, len(temp)-1):
             print(tasks[i])
 
