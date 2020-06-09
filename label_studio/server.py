@@ -726,6 +726,8 @@ def api_import():
                 #print(startingindex)
                 if (startingindex < len(temp)):
                     tasks.append(temp[j+startingindex])
+                    print(j+startingindex)
+                    print(" ")
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
