@@ -721,7 +721,7 @@ def api_import():
         numcomps = 3
         startingindex = 0
         for i in range(0, len(temp)-1):
-            for j in range(0, numcomps - 1):
+            for j in range(0, numcomps):
                 tasks.append(temp[j+startingindex])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
