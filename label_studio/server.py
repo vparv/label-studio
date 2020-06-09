@@ -697,7 +697,7 @@ def api_import():
         # tasks are in directory, write a new file with tasks
         task_dir = project.config['input_path']
         now = datetime.now()
-        print("In api_import")
+        print("In new tasks api_import")
         data = json.dumps(new_tasks, ensure_ascii=False)
         md5 = hashlib.md5(json.dumps(data).encode('utf-8')).hexdigest()
         name = 'import-' + now.strftime('%Y-%m-%d-%H-%M') + '-' + str(md5[0:8])
@@ -706,10 +706,11 @@ def api_import():
     else:
         # tasks are all in one file, append it
         path = project.config['input_path']
-        print("in old tasks section")
+        print("in old tasks section api_import")
         old_tasks = json.load(open(path))
         assert isinstance(old_tasks, list), 'Tasks from input_path must be list'
         tasks = old_tasks + new_tasks
+        print(tasks.type())
         logger.error("It's recommended to use directory as input_path: " +
                      project.config['input_path'] + ' -> ' + os.path.dirname(project.config['input_path']))
 
