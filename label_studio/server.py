@@ -52,7 +52,7 @@ import sqlite3
 from flask import g
 
 #Global arguments
-param = 4
+param = 12
 
 
 
