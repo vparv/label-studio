@@ -720,15 +720,16 @@ def api_import():
         tasks[:] = []
         numcomps = 3
         startingindex = 0
-        count = []
+        count = []*len(temp)
         for i in range(0, len(temp)):
             for j in range(0, param):
                 #print(startingindex)
-                if (j+startingindex < len(temp) and count[j+startingindex] < 3):
-                    tasks.append(temp[j+startingindex])
-                    count[j+startingindex] = count[j+startingindex] + 1
-                    #print(j+startingindex)
-                    print(temp[j+startingindex])
+                if (j+startingindex < len(temp)):
+                    if  (count[j+startingindex] < 3):
+                        tasks.append(temp[j+startingindex])
+                        count[j+startingindex] = count[j+startingindex] + 1
+                        #print(j+startingindex)
+                        print(temp[j+startingindex])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
