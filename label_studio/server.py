@@ -710,7 +710,8 @@ def api_import():
         old_tasks = json.load(open(path))
         assert isinstance(old_tasks, list), 'Tasks from input_path must be list'
         tasks = old_tasks + new_tasks
-        print(tasks.type())
+        tasks.insert(old_tasks[0], len(tasks))
+        tasks.insert(old_tasks[1], len(tasks))
         logger.error("It's recommended to use directory as input_path: " +
                      project.config['input_path'] + ' -> ' + os.path.dirname(project.config['input_path']))
 
