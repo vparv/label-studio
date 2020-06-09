@@ -138,6 +138,7 @@ class Project(object):
             self.derived_output_schema['from_name_to_name_type'].add((
                 result['from_name'], result['to_name'], result['type']#,completion['user']
             ))
+            print("in update derived output schema")
             for label in result['value'][result['type']]:
                 self.derived_output_schema['labels'][result['from_name']].add(label)
         print(self.derived_output_schema)
