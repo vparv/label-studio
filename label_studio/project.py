@@ -110,6 +110,7 @@ class Project(object):
         }
 
     def is_text_annotation(self, input_data_tags, filepath):
+        print("in text annotation")
         return (
             len(input_data_tags) == 1 and input_data_tags[0].tag == 'Text'
             and filepath.endswith(self._allowed_extensions['Text'])
@@ -128,6 +129,7 @@ class Project(object):
         )
 
     def _update_derived_output_schema(self, completion):
+        print("in update_derived_output_schema")
         """
         Given completion, output schema is updated. Output schema consists of unique tuples (from_name, to_name, type)
         and list of unique labels derived from existed completions
@@ -147,6 +149,7 @@ class Project(object):
         return self.result_ds
 
     def validate_label_config_on_derived_input_schema(self, config_string_or_parsed_config):
+        print("in validate_label_config_on_derived_input_schema")
         """
         Validate label config on input schemas (tasks types and data keys) derived from imported tasks
         :param config_string_or_parsed_config: label config string or parsed config object
@@ -187,6 +190,7 @@ class Project(object):
                         .format(item=item, input_schema_values=list(input_schema_types)))
 
     def validate_label_config_on_derived_output_schema(self, config_string_or_parsed_config):
+        print("in validate_label_config_on_derived_output_schema")
         """
         Validate label config on output schema (from_names, to_names and labeling types) derived from completions
         :param config_string_or_parsed_config: label config string or parsed config object
@@ -230,6 +234,7 @@ class Project(object):
                 )
 
     def tasks_from_json_file(self, path):
+        print("in tasks_from_json_file")
         """ Prepare tasks from json
 
         :param path: path to json with list or dict
@@ -341,6 +346,7 @@ class Project(object):
         print(str(len(self.tasks)) + ' tasks loaded from: ' + self.config['input_path'])
 
     def get_tasks(self):
+        print("in get tasks")
         """ Load tasks from JSON files in input_path directory
 
         :return: file list
@@ -348,6 +354,7 @@ class Project(object):
         return self.tasks
 
     def delete_tasks(self):
+        print("in delete tasks")
         """
         Deletes all tasks & completions from filesystem, then reloads clean project
         :return:
@@ -358,6 +365,7 @@ class Project(object):
         self.reload()
 
     def iter_tasks(self):
+        print("in iter tasks")
         sampling = self.config.get('sampling', 'sequential')
         if sampling == 'sequential':
             return self.tasks.items()
@@ -369,6 +377,7 @@ class Project(object):
             raise NotImplementedError('Unknown sampling method ' + sampling)
 
     def get_task_ids(self):
+        print("in get task ids")
         """ Get task ids only
 
         :return: list of task ids
@@ -376,6 +385,7 @@ class Project(object):
         return list(self.tasks.keys())
 
     def get_task(self, task_id):
+        print("in get task")
         """ Get one task
 
         :param task_id:
@@ -388,6 +398,7 @@ class Project(object):
         return self.tasks.get(task_id)
 
     def get_completions_ids(self):
+        print("in get completitons ids")
         """ List completion ids from output_dir directory
 
         :return: filenames without extensions and directories
@@ -401,6 +412,7 @@ class Project(object):
         return sorted(completions)
 
     def get_completions_user(self):
+        print("in get completions user")
         user_dict={}
         all_ids = self.get_completions_ids()
         for i in all_ids:
