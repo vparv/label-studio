@@ -671,6 +671,7 @@ def make_task_queue(num_tasks):
 
 @app.route('/api/import', methods=['POST'])
 def api_import():
+    print("in api import")
     project = project_get_or_create()
 
     # make django compatibility for uploader module
@@ -765,6 +766,7 @@ def api_import():
 @app.route('/api/export', methods=['GET'])
 @login_required(role = "admin")
 def api_export():
+    print("in api export")
     export_format = request.args.get('format')
     project = project_get_or_create()
     now = datetime.now()
@@ -784,6 +786,7 @@ def api_export():
 @app.route('/api/projects/1/next/', methods=['GET'])
 @exception_treatment
 def api_generate_next_task():
+    print("in api generate next task")
     """ Generate next task to label
     """
     # try to find task is not presented in completions
@@ -827,6 +830,7 @@ def api_generate_next_task():
 @app.route('/api/project/', methods=['POST', 'GET'])
 @exception_treatment
 def api_project():
+    print("in api project")
     """ Project global operation
     """
     project = project_get_or_create(multi_session_force_recreate=False)
@@ -838,6 +842,7 @@ def api_project():
 @app.route('/api/projects/1/task_ids/', methods=['GET'])
 @exception_treatment
 def api_all_task_ids():
+    print("in api all task ids")
     """ Get all tasks ids
     """
     project = project_get_or_create()
@@ -875,6 +880,7 @@ def api_all_task_ids():
 @app.route('/api/tasks/<task_id>/', methods=['GET'])
 @exception_treatment
 def api_tasks(task_id):
+    print("in api tasks")
     """ Get task by id
     """
     # try to get task with completions first
@@ -888,6 +894,7 @@ def api_tasks(task_id):
 @app.route('/api/tasks/delete', methods=['DELETE'])
 @exception_treatment
 def api_tasks_delete():
+    print("in api tasks delete")
     """ Delete all tasks & completions
     """
     project = project_get_or_create()
@@ -898,6 +905,7 @@ def api_tasks_delete():
 @app.route('/api/projects/1/completions_ids/', methods=['GET'])
 @exception_treatment
 def api_all_completion_ids():
+    print("in api all completion ids")
     """ Get all completion ids
     """
     project = project_get_or_create()
@@ -909,6 +917,7 @@ def api_all_completion_ids():
 @app.route('/api/tasks/<task_id>/completions/', methods=['POST', 'DELETE'])
 @exception_treatment
 def api_completions(task_id):
+    print("in api completions")
     """ Delete or save new completion to output_dir with the same name as task_id
     """
     project = project_get_or_create()
@@ -941,6 +950,7 @@ def api_completions(task_id):
 @app.route('/api/tasks/<task_id>/completions/<completion_id>/', methods=['DELETE'])
 @exception_treatment
 def api_completion_by_id(task_id, completion_id):
+    print("in api completion by id")
     """ Delete or save new completion to output_dir with the same name as task_id.
         completion_id with different IDs is not supported in this backend
     """
@@ -967,6 +977,7 @@ def api_completion_by_id(task_id, completion_id):
 @app.route('/api/tasks/<task_id>/completions/<completion_id>/', methods=['PATCH'])
 @exception_treatment
 def api_completion_update(task_id, completion_id):
+    print("in api completion update")
     """ Rewrite existing completion with patch.
         This is technical api call for editor testing only. It's used for Rewrite button in editor.
     """
@@ -987,6 +998,7 @@ def api_completion_update(task_id, completion_id):
 @login_required
 @exception_treatment
 def api_instruction():
+    print("in api instruction")
     """ Instruction for annotators
     """
     project = project_get_or_create()

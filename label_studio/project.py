@@ -75,6 +75,7 @@ class Project(object):
         self.validate_label_config_on_derived_output_schema(parsed_config)
 
     def update_label_config(self, new_label_config):
+        print("in update label config")
         label_config_file = self.config['label_config']
         # save xml label config to file
         with io.open(label_config_file, mode='w') as f:
@@ -87,6 +88,7 @@ class Project(object):
         logger.info('Label config saved to: {path}'.format(path=label_config_file))
 
     def _get_single_input_value(self, input_data_tags):
+        print("in get single input value")
         if len(input_data_tags) > 1:
             val = ",".join(tag.attrib.get("name") for tag in input_data_tags)
             print('Warning! Multiple input data tags found: ' +
@@ -96,6 +98,7 @@ class Project(object):
         return data_key
 
     def _create_task_with_local_uri(self, filepath, data_key, task_id):
+        print("in create task with local uri")
         """ Convert filepath to task with flask serving URL
         """
         filename = os.path.basename(self, filepath)
@@ -428,6 +431,7 @@ class Project(object):
 
 
     def get_completed_at(self, task_ids):
+        print("in get completed at")
         """ Get completed time for list of task ids
 
         :param task_ids: list of task ids
@@ -441,6 +445,7 @@ class Project(object):
         return times
 
     def get_task_with_completions(self, task_id):
+        print("in get task with completions")
         """ Get task with completions
 
         :param task_id: task ids
@@ -462,6 +467,7 @@ class Project(object):
         return data
 
     def save_completion(self, task_id, completion, user_id):
+        print("in save completion")
         """ Save completion
 
         :param task_id: task id
@@ -501,6 +507,7 @@ class Project(object):
         return [completion['id'],completion['user']]
 
     def delete_completion(self, task_id):
+        print("in delete completion")
         """ Delete completion from disk
 
         :param task_id: task id
@@ -509,6 +516,7 @@ class Project(object):
         os.remove(filename)
 
     def reload(self):
+        print("in reload")
         self.tasks = None
         self.derived_input_schema = []
         self.derived_output_schema = {
@@ -547,6 +555,7 @@ class Project(object):
 
     @classmethod
     def create_project_dir(cls, project_name, args):
+        print("in create project dir")
         """
         Create project directory in args.root_dir/project_name, and initialize there all required files
         If some files are missed, restore them from defaults.
@@ -640,6 +649,7 @@ class Project(object):
 
     @classmethod
     def _get_config(cls, project_dir, args):
+        print("in get config")
         """
         Get config path from input args Namespace acquired by Argparser
         :param args:
