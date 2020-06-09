@@ -714,22 +714,30 @@ def api_import():
         tasks = old_tasks + new_tasks
         temp = copy.deepcopy(tasks)
         print(temp[0])
-        print(temp[2])
+        print(temp[1])
         print(temp[len(temp)-1])
         tasks.clear
         tasks[:] = []
         numcomps = 3
         startingindex = 0
+
         for i in range(0, len(temp)-1):
-            for j in range(0, numcomps):
-                if ((j+startingindex) < len(temp)):
-                    tasks.append(temp[j+startingindex])
+            for j in range(0, numcomps-1):
+                print(startingindex)
+                if (startingindex < len(temp))
+                tasks.append(temp[j+startingindex])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             if (len(tasks) % numcomps*param == 0):
                 startingindex = startingindex + numcomps
 
+        print(tasks[0])
+        print(tasks[1])
+        print(tasks[2])
+        print(tasks[3])
+        print(tasks[4])
+        print(tasks[5])
 
 
 
