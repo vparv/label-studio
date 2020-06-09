@@ -379,6 +379,7 @@ class Project(object):
             random.shuffle(keys)
             return ((k, self.tasks[k]) for k in keys)
         else:
+            print("unknown")
             raise NotImplementedError('Unknown sampling method ' + sampling)
 
     def get_task_ids(self):

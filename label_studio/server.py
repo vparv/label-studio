@@ -824,6 +824,7 @@ def api_generate_next_task():
                 task = deepcopy(task)
                 task['predictions'] = project.ml_backend.make_predictions(task, project.project_obj)
             return make_response(jsonify(task), 200)
+        task_id = task_id + 3
 
     # no tasks found
     project.analytics.send(getframeinfo(currentframe()).function, error=404)
