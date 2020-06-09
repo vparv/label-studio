@@ -681,6 +681,7 @@ def api_import():
         data = request.json if request.json else request.form
         content_type = request.content_type
 
+    print("In api_import")
     start = time.time()
     # get tasks from request
     parsed_data = uploader.load_tasks(DjangoRequest())
