@@ -816,15 +816,16 @@ def api_generate_next_task():
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
 
     for task_id, task in project.iter_tasks():
+        task_id = task_id + 3
         if task_id not in completions and task_id >= lower_bound and task_id <= upper_bound:
             log.info(msg='New task for labeling', extra=task)
             project.analytics.send(getframeinfo(currentframe()).function)
-            # try to use ml backend for predictions
+             # try to use ml backend for predictions
             if project.ml_backend:
                 task = deepcopy(task)
                 task['predictions'] = project.ml_backend.make_predictions(task, project.project_obj)
             return make_response(jsonify(task), 200)
-        task_id = task_id + 3
+
 
     # no tasks found
     project.analytics.send(getframeinfo(currentframe()).function, error=404)
