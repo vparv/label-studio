@@ -718,10 +718,18 @@ def api_import():
         print(temp[len(temp)-1])
         tasks.clear
         tasks[:] = []
+        numcomps = 3
+        startingindex = 0
         for i in range(0, len(temp)-1):
-            tasks.append(temp[i])
-            tasks.append(temp[i])
-            tasks.append(temp[i])
+            for j in range(0, numscomps - 1):
+                tasks.append(temp[j+startingindex])
+            #tasks.append(temp[i])
+            #tasks.append(temp[i])
+            #tasks.append(temp[i])
+            if (len(tasks) % numcomps*param == 0):
+                startingindex = startingindex + numcomps
+
+
 
 
         logger.error("It's recommended to use directory as input_path: " +
