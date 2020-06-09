@@ -722,7 +722,7 @@ def api_import():
         startingindex = 0
         count = [0]*len(temp)
 
-        for i in range(0, len(temp)/param + 1):
+        for i in range(0, int(len(temp)/param + 1)):
             for j in range(0, param):
                 if (j+startingindex < len(temp)):
                     if  (count[j+startingindex] < 3):
