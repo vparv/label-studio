@@ -718,6 +718,7 @@ def api_import():
         numcomps = 3
         startingindex = 0
         count = [0]*len(temp)
+        c = 0
 
         for i in range(0, len(temp)):
             for j in range(0, param):
@@ -728,7 +729,9 @@ def api_import():
                         print(temp[j+startingindex])
             if (len(tasks) % (numcomps*param) == 0):
                 startingindex = startingindex + param
+            c = c + 1
 
+        print(c)
         logger.error("It's recommended to use directory as input_path: " +
                      project.config['input_path'] + ' -> ' + os.path.dirname(project.config['input_path']))
 
