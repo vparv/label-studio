@@ -371,8 +371,10 @@ class Project(object):
         print("in iter tasks")
         sampling = self.config.get('sampling', 'sequential')
         if sampling == 'sequential':
+            print("sequential")
             return self.tasks.items()
         elif sampling == 'uniform':
+            print("uniform")
             keys = list(self.tasks.keys())
             random.shuffle(keys)
             return ((k, self.tasks[k]) for k in keys)
