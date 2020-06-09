@@ -816,7 +816,6 @@ def api_generate_next_task():
             upper_bound = task_queue[cur_id % len(task_queue)][len(task_queue[cur_id % len(task_queue)]) - 1]
 
     for task_id, task in project.iter_tasks():
-        task_id = task_id + 3
         if task_id not in completions and task_id >= lower_bound and task_id <= upper_bound:
             log.info(msg='New task for labeling', extra=task)
             project.analytics.send(getframeinfo(currentframe()).function)
