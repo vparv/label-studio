@@ -711,10 +711,13 @@ def api_import():
         assert isinstance(old_tasks, list), 'Tasks from input_path must be list'
         tasks = old_tasks + new_tasks
         temp = tasks
+        print(temp[0])
+        print(temp[1])
+        print(temp[len(temp)-1])
         tasks.clear
-        for i in range(0, len(temp)):
-            tasks.insert(temp[i], len(tasks))
-            tasks.insert(temp[i], len(tasks))
+        for i in range(0, len(temp)-1):
+            tasks = tasks + temp[i]
+            tasks = tasks + temp[i]
 
 
         logger.error("It's recommended to use directory as input_path: " +
