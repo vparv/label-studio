@@ -706,6 +706,7 @@ def api_import():
     else:
         # tasks are all in one file, append it
         path = project.config['input_path']
+        print("in old tasks section")
         old_tasks = json.load(open(path))
         assert isinstance(old_tasks, list), 'Tasks from input_path must be list'
         tasks = old_tasks + new_tasks
