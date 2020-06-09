@@ -718,7 +718,9 @@ def api_import():
         tasks.clear
         tasks[:] = []
         for i in range(0, len(temp)-1):
-            print(tasks[i])
+            tasks.append(temp[i])
+            tasks.append(temp[i])
+            tasks.append(temp[i])
 
 
         logger.error("It's recommended to use directory as input_path: " +
