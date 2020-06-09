@@ -727,9 +727,11 @@ def api_import():
                         tasks.append(temp[j+startingindex])
                         count[j+startingindex] = count[j+startingindex] + 1
                         print(temp[j+startingindex])
+                        c = c + 1
+
             if (len(tasks) % (numcomps*param) == 0):
                 startingindex = startingindex + param
-            c = c + 1
+
 
         print(c)
         logger.error("It's recommended to use directory as input_path: " +
