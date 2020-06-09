@@ -6,6 +6,7 @@ import flask
 import hashlib
 import logging
 import pandas as pd
+import copy
 
 try:
     import ujson as json
@@ -711,7 +712,7 @@ def api_import():
         old_tasks = json.load(open(path))
         assert isinstance(old_tasks, list), 'Tasks from input_path must be list'
         tasks = old_tasks + new_tasks
-        temp = tasks
+        temp = copy.deepcopy(tasks)
         print(temp[0])
         print(temp[2])
         print(temp[len(temp)-1])
