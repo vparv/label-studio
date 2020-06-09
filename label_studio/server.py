@@ -729,7 +729,7 @@ def api_import():
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             #tasks.append(temp[i])
-            if (len(tasks) % numcomps*param == 0):
+            if (len(tasks) % (numcomps*param) == 0):
                 startingindex = startingindex + numcomps
 
         print(tasks[0])
