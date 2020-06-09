@@ -52,7 +52,7 @@ import sqlite3
 from flask import g
 
 #Global arguments
-param = 3
+param = 4
 
 
 
@@ -722,9 +722,9 @@ def api_import():
         startingindex = 0
 
         for i in range(0, len(temp)):
-            for j in range(0, numcomps):
+            for j in range(0, param):
                 #print(startingindex)
-                if (startingindex < len(temp)):
+                if (j+startingindex < len(temp)):
                     tasks.append(temp[j+startingindex])
                     print(j+startingindex)
             #tasks.append(temp[i])
