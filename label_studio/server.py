@@ -721,9 +721,9 @@ def api_import():
         numcomps = 3
         startingindex = 0
         count = [0]*len(temp)
-        for i in range(0, len(temp)):
+
+        for i in range(0, len(temp)/param + 1):
             for j in range(0, param):
-                #print(startingindex)
                 if (j+startingindex < len(temp)):
                     if  (count[j+startingindex] < 3):
                         tasks.append(temp[j+startingindex])
@@ -734,7 +734,7 @@ def api_import():
             #tasks.append(temp[i])
             #tasks.append(temp[i])
             if (len(tasks) % (numcomps*param) == 0):
-                startingindex = startingindex + numcomps
+                startingindex = startingindex + param
 
     #    print(tasks[0])
         #print(tasks[1])
