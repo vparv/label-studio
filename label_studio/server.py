@@ -696,6 +696,7 @@ def api_import():
         # tasks are in directory, write a new file with tasks
         task_dir = project.config['input_path']
         now = datetime.now()
+        print("In api_import")
         data = json.dumps(new_tasks, ensure_ascii=False)
         md5 = hashlib.md5(json.dumps(data).encode('utf-8')).hexdigest()
         name = 'import-' + now.strftime('%Y-%m-%d-%H-%M') + '-' + str(md5[0:8])
