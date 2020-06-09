@@ -712,11 +712,8 @@ def api_import():
         old_tasks = json.load(open(path))
         assert isinstance(old_tasks, list), 'Tasks from input_path must be list'
         tasks = old_tasks + new_tasks
+
         temp = copy.deepcopy(tasks)
-        print(temp[0])
-        print(temp[1])
-        print(temp[len(temp)-1])
-        tasks.clear
         tasks[:] = []
         numcomps = 3
         startingindex = 0
@@ -728,22 +725,9 @@ def api_import():
                     if  (count[j+startingindex] < 3):
                         tasks.append(temp[j+startingindex])
                         count[j+startingindex] = count[j+startingindex] + 1
-                        #print(j+startingindex)
                         print(temp[j+startingindex])
-            #tasks.append(temp[i])
-            #tasks.append(temp[i])
-            #tasks.append(temp[i])
             if (len(tasks) % (numcomps*param) == 0):
                 startingindex = startingindex + param
-
-    #    print(tasks[0])
-        #print(tasks[1])
-        #print(tasks[2])
-    #    print(tasks[3])
-    #    print(tasks[4])
-    #    print(tasks[5])
-
-
 
         logger.error("It's recommended to use directory as input_path: " +
                      project.config['input_path'] + ' -> ' + os.path.dirname(project.config['input_path']))
